@@ -13,7 +13,7 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\:
+    NonEfTech\BookCrossing\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
@@ -22,3 +22,39 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    NonEfTech\BookCrossing\Entity\ParticipantRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\Participant
+
+    NonEfTech\BookCrossing\Entity\ActOfTakingRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\ActOfTaking
+
+    NonEfTech\BookCrossing\Entity\ActOfGivingRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\ActOfGiving
+
+    NonEfTech\BookCrossing\Entity\BookRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\Book
+
+    NonEfTech\BookCrossing\Entity\PointRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\Point
+
+    NonEfTech\BookCrossing\Entity\AdministratorRepositoryInterface:
+        factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Repository\AdministratorRepository\AdministratorDataProvider
+
+    Monolog\Handler\TelegramBotHandler:
+        arguments:
+            $apiKey: '%env(TELEGRAM_BOT_KEY)%'
+            $channel: '%env(TELEGRAM_CHANEL)%'
+            $level: 'error'

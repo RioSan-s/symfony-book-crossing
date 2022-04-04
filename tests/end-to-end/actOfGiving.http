@@ -1,0 +1,851 @@
+### Тестирование поиска актов отдачи по id акта отдачи
+GET http://localhost:8086/actOfGiving/3
+
+> {%
+client.test("Тестирование поиска актов отдачи по id акта отдачи", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body["count"] === 1, "некорректное количество книг");
+    client.assert(response.body["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование ситуации, когда указан не существующий ID автора
+GET http://localhost:8086/actOfGiving/0
+
+> {%
+ client.test("Тестирование ситуации, когда указан не существующий ID автора", function() {
+
+    client.assert(response.status === 404, "Был получен код '" + response.status + "', ожидалось 404.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "entity not found", "Ожидалось 'entity not found'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+    });
+ %}
+
+
+
+
+
+
+
+
+### Тестирование поиска актов отдачи по id акта отдачи
+GET http://localhost:8086/actOfGiving?id=3
+
+> {%
+client.test("Тестирование поиска актов отдачи по id акта отдачи", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по id книги
+GET http://localhost:8086/actOfGiving?book_id=3
+
+> {%
+client.test("Тестирование поиска актов отдачи по id книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по названию книги
+GET http://localhost:8086/actOfGiving?book_title=Евгений Онегин
+
+> {%
+client.test("Тестирование поиска актов отдачи по названию книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по автору книги
+GET http://localhost:8086/actOfGiving?book_author=Александр Пушкин
+
+> {%
+client.test("Тестирование поиска актов отдачи по автору книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по издательству книги
+GET http://localhost:8086/actOfGiving?book_publishingHouse=Эксмо
+
+> {%
+client.test("Тестирование поиска актов отдачи по издательству книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 3, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 1, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 1, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Мастер и Маргарита", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Михаил Булгаков", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2021, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 1, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 1, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Хигир Ирина Кузьминовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (983) 604-51-60", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "15.04.1973", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "irina2888@rambler.ru", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по году публикации книги
+GET http://localhost:8086/actOfGiving?book_yearOfPublication=2016-01-01
+
+> {%
+client.test("Тестирование поиска актов отдачи по году публикации книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 2, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 2, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Мёртвые души", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Николай Гоголь", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "АСТ", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 3, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (919) 961-24-65", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Абакан, Пушкина ул., д. 6 кв.136", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "12:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "16:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 4, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Булыгина Маргарита Никаноровна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (961) 179-12-24", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "25.06.1990", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "margarita1990@hotmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по id пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_id=2
+
+> {%
+client.test("Тестирование поиска актов отдачи по id пункта обмена книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по номеру телефона пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_phoneNumber=%2B7 (963) 757-16-90
+
+> {%
+client.test("Тестирование поиска актов отдачи по номеру телефона пункта обмена книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по адресу пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_address=Россия, г. Уфа, Почтовая ул., д. 11 кв.34
+
+> {%
+client.test("Тестирование поиска актов отдачи по адресу пункта обмена книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по началу времени работы пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_startTime=10:00
+
+> {%
+client.test("Тестирование поиска актов отдачи по началу времени работы пункта обмена книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по окончанию времени работы пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_endTime=20:00
+
+> {%
+client.test("Тестирование поиска актов отдачи по окончанию времени работы пункта обмена книги", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по количеству книг
+GET http://localhost:8086/actOfGiving?count=1
+
+> {%
+client.test("Тестирование поиска актов отдачи по количеству книг", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 5, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 1, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 1, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Мастер и Маргарита", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Михаил Булгаков", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2021, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 1, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 1, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Хигир Ирина Кузьминовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (983) 604-51-60", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "15.04.1973", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "irina2888@rambler.ru", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по id участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_id=2
+
+> {%
+client.test("Тестирование поиска актов отдачи по id участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по ФИО участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_fio=Курневича Елизавета Ефимовна
+
+> {%
+client.test("Тестирование поиска актов отдачи по ФИО участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по номеру телефона участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_phoneNumber=%2B7 (953) 499-40-73
+
+> {%
+client.test("Тестирование поиска актов отдачи по номеру телефона участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по дате рождения участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_dateOfBirth=03.03.1967
+
+> {%
+client.test("Тестирование поиска актов отдачи по дате рождения участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+### Тестирование поиска актов отдачи по email участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_email=elizaveta03031967@gmail.com
+
+> {%
+client.test("Тестирование поиска актов отдачи по email участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+    client.assert(response.contentType.mimeType === "application/json", "Ожидаю application/type, а фактически" + response.contentType.mimeType + "'.");
+    client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе не 1 элемент");
+    client.assert(response.body[0]["id"] === 3, "некорректный id акта отдачи");
+    client.assert(response.body[0]["book"] !== undefined, "нет данных о книге");
+    client.assert(response.body[0]["book"]["id"] === 3, "некорректный id книги");
+    client.assert(response.body[0]["book"]["title"] === "Евгений Онегин", "некорректное название книги");
+    client.assert(response.body[0]["book"]["author"] === "Александр Пушкин", "некорректный автор");
+    client.assert(response.body[0]["book"]["publishingHouse"] === "Эксмо", "некорректное название издательства");
+    client.assert(response.body[0]["book"]["yearOfPublication"] === 2016, "Некорректный год публикации");
+    client.assert(response.body[0]["book"]["point"] !== undefined, "нет данных о пункте обмена");
+    client.assert(response.body[0]["book"]["point"]["id"] === 2, "некорректный id пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["phoneNumber"] === "+7 (963) 757-16-90", "некорректный номер пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["address"] === "Россия, г. Уфа, Почтовая ул., д. 11 кв.34", "некорректный адрес обмена");
+    client.assert(response.body[0]["book"]["point"]["startTime"] === "10:00", "некорректное время начала работы пункта обмена");
+    client.assert(response.body[0]["book"]["point"]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+    client.assert(response.body[0]["count"] === 1, "некорректное количество книг");
+    client.assert(response.body[0]["participant"] !== undefined, "нет данных об участнике обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["id"] === 2, "некорректный id участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["fio"] === "Курневича Елизавета Ефимовна", "некорректное ФИО участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["phoneNumber"] === "+7 (953) 499-40-73", "некорректный номер участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["dateOfBirth"] === "03.03.1967", "некорректная дата рождения участника обмена, который отдал книгу");
+    client.assert(response.body[0]["participant"]["email"] === "elizaveta03031967@gmail.com", "некорректная почта участника обмена, который отдал книгу");
+});
+ %}
+
+###Начало ломанных запросов
+
+### Ломаные запросы. Тестирование поиска актов отдачи по id участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_id[]=2
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по id участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect participant_id", "Ожидалось 'Incorrect participant_id'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по id акта отдачи
+GET http://localhost:8086/actOfGiving?id[]=3
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по id акта отдачи", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect id", "Ожидалось 'Incorrect id'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по id книги
+GET http://localhost:8086/actOfGiving?book_id[]=3
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по id книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_id", "Ожидалось 'Incorrect book_id'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по названию книги
+GET http://localhost:8086/actOfGiving?book_title[]=Евгений Онегин
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по названию книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_title", "Ожидалось 'Incorrect book_title'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по автору книги
+GET http://localhost:8086/actOfGiving?book_author[]=Александр Пушкин
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по автору книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_author", "Ожидалось 'Incorrect book_author'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по издательству книги
+GET http://localhost:8086/actOfGiving?book_publishingHouse[]=Эксмо
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по издательству книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_publishingHouse", "Ожидалось 'Incorrect book_publishingHouse'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по году публикации книги
+GET http://localhost:8086/actOfGiving?book_yearOfPublication[]=2016
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по году публикации книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_yearOfPublication", "Ожидалось 'Incorrect book_yearOfPublication'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по id пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_id[]=2
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по id пункта обмена книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_point_id", "Ожидалось 'Incorrect book_point_id'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по номеру телефона пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_phoneNumber[]=%2B7 (963) 757-16-90
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по номеру телефона пункта обмена книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_point_phoneNumber", "Ожидалось 'Incorrect book_point_phoneNumber'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по адресу пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_address[]=Россия, г. Уфа, Почтовая ул., д. 11 кв.34
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по адресу пункта обмена книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_point_address", "Ожидалось 'Incorrect book_point_address'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по началу времени работы пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_startTime[]=10:00
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по началу времени работы пункта обмена книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_point_startTime", "Ожидалось 'Incorrect book_point_startTime'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по окончанию времени работы пункта обмена книги
+GET http://localhost:8086/actOfGiving?book_point_endTime[]=20:00
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по окончанию времени работы пункта обмена книги", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect book_point_endTime", "Ожидалось 'Incorrect book_point_endTime'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по количеству книг
+GET http://localhost:8086/actOfGiving?count[]=1
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по количеству книг", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect count", "Ожидалось 'Incorrect count'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по id участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_id[]=2
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по id участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect participant_id", "Ожидалось 'Incorrect participant_id'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по ФИО участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_fio[]=Курневича Елизавета Ефимовна
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по ФИО участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect participant_fio", "Ожидалось 'Incorrect participant_fio'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по номеру телефона участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_phoneNumber[]=%2B7 (953) 499-40-73
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по номеру телефона участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect participant_phoneNumber", "Ожидалось 'Incorrect participant_phoneNumber'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по дате рождения участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_dateOfBirth[]=03.03.1967
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по дате рождения участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect participant_dateOfBirth", "Ожидалось 'Incorrect participant_dateOfBirth'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска актов отдачи по email участника обмена, который отдал книгу
+GET http://localhost:8086/actOfGiving?participant_email[]=elizaveta03031967@gmail.com
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска актов отдачи по email участника обмена, который отдал книгу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Incorrect participant_email", "Ожидалось 'Incorrect participant_email'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}

@@ -1,3 +1,57 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+act_of_giving_id:
+  path: /actOfGiving/{id}
+  controller: NonEfTech\BookCrossing\Controller\GetActOfGivingController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+act_of_giving:
+  path: /actOfGiving
+  controller: NonEfTech\BookCrossing\Controller\GetActOfGivingCollectionController::__invoke
+  methods: GET
+
+act_of_taking_id:
+  path: /actOfTaking/{id}
+  controller: NonEfTech\BookCrossing\Controller\GetActOfTakingController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+act_of_taking:
+  path: /actOfTaking
+  controller: NonEfTech\BookCrossing\Controller\GetActOfTakingCollectionController::__invoke
+  methods: GET
+
+book_id:
+  path: /books/{id}
+  controller: NonEfTech\BookCrossing\Controller\GetBooksController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+books:
+  path: /books
+  controller: NonEfTech\BookCrossing\Controller\GetBooksCollectionController::__invoke
+  methods: GET
+
+point_id:
+  path: /points/{id}
+  controller: NonEfTech\BookCrossing\Controller\GetPointsController::__invoke
+  methods: GET
+  requirements:
+    id: '\d+'
+
+points:
+  path: /points
+  controller: NonEfTech\BookCrossing\Controller\GetPointsCollectionController::__invoke
+  methods: GET
+
+login:
+  path: /login
+  controller: NonEfTech\BookCrossing\Controller\LoginController::__invoke
+  methods: [POST, GET]
+
+act_of_taking_administration:
+  path: /act-of-taking/administration
+  controller: NonEfTech\BookCrossing\Controller\ActOfTakingAdministrationController::__invoke
+  methods: [POST, GET]

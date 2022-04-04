@@ -1,0 +1,410 @@
+### Тестирование поиска книги по id
+GET http://localhost:8086/books/1
+
+> {%
+client.test("Тестирование поиска книги по id", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body["id"] === 1, "некорректный id книги");
+client.assert(response.body["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+
+### Тестирование ситуации, когда указан не существующий ID книги
+GET http://localhost:8086/books/0
+
+> {%
+ client.test("Тестирование ситуации, когда указан не существующий ID автора", function() {
+
+    client.assert(response.status === 404, "Был получен код '" + response.status + "', ожидалось 404.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "entity not found", "Ожидалось 'entity not found'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+    });
+ %}
+
+
+### Тестирование поиска книги по id
+GET http://localhost:8086/books?id=1
+
+> {%
+client.test("Тестирование поиска книги по id", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по названию
+GET http://localhost:8086/books?title=Мастер и Маргарита
+
+> {%
+client.test("Тестирование поиска книги по названию", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по автору
+GET http://localhost:8086/books?author=Михаил Булгаков
+
+> {%
+client.test("Тестирование поиска книги по автору", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по издательству
+GET http://localhost:8086/books?publishingHouse=Эксмо
+
+> {%
+client.test("Тестирование поиска книги по издательству", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 3, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по году публикации
+GET http://localhost:8086/books?yearOfPublication=2021-01-01
+
+> {%
+client.test("Тестирование поиска книги по году публикации", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по id пункта обмена
+GET http://localhost:8086/books?point_id=1
+
+> {%
+client.test("Тестирование поиска книги по id пункта обмена", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по номеру телефона пункта обмена
+GET http://localhost:8086/books?point_phoneNumber=%2B7 (962) 448-19-25
+
+> {%
+client.test("Тестирование поиска книги по номеру телефона пункта обмена", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по адресу пункта обмена
+GET http://localhost:8086/books?point_address=Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200
+
+> {%
+client.test("Тестирование поиска книги по адресу пункта обмена", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по времени начала работы пункта обмена
+GET http://localhost:8086/books?point_startTime=09:00
+
+> {%
+client.test("Тестирование поиска книги по времени начала работы пункта обмена", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+### Тестирование поиска книги по времени окончания работы пункта обмена
+GET http://localhost:8086/books?point_endTime=18:00
+
+> {%
+client.test("Тестирование поиска книги по времени окончания работы пункта обмена", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 2, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+############################################
+
+### Ломаные запросы. Тестирование поиска книги по id
+GET http://localhost:8086/books?id[]=1
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по id", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[id] : Некорректный тип данных id книги | ", "Ожидалось 'Incorrect id'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по названию
+GET http://localhost:8086/books?title[]=Мастер и Маргарита
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по названию", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[title] : Некорректный тип данных заголовка книги | ", "Ожидалось '[title] : Некорректный тип данных заголовка книги'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по автору
+GET http://localhost:8086/books?author[]=Михаил Булгаков
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по автору", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[author] : Некорректный тип данных автора книги | ", "Ожидалось '[author] : Некорректный тип данных автора книги'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по издательству
+GET http://localhost:8086/books?publishingHouse[]=Эксмо
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по издательству", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[publishingHouse] : Некорректный тип данных издания автора книги | ", "Ожидалось '[publishingHouse] : Некорректный тип данных автора книги'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по году публикации
+GET http://localhost:8086/books?yearOfPublication[]=2021
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по году публикации", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[yearOfPublication] : Некорректный тип данных года публикации книги | [yearOfPublication] : This value should be of type string. | ", "Ожидалось 'Incorrect yearOfPublication'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по id пункта обмена
+GET http://localhost:8086/books?point_id[]=1
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по id пункта обмена", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[point_id] : Некорректный тип данных id пункта обмена | ", "Ожидалось '[point_id] : Некорректный тип данных id пункта обмена'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по номеру телефона пункта обмена
+GET http://localhost:8086/books?point_phoneNumber[]=%2B7 (962) 448-19-25
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по номеру телефона пункта обмена", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[point_phoneNumber] : Некорректный тип данных телефона пункта обмена | [point_phoneNumber] : This value should be of type string. | ", "Ожидалось 'Incorrect point_phoneNumber'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по адресу пункта обмена
+GET http://localhost:8086/books?point_address[]=Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по адресу пункта обмена", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[point_address] : Некорректный тип данных адреса пункта обмена | ", "Ожидалось '[point_address] : Некорректный тип данных адреса пункта обмена |'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по времени начала работы пункта обмена
+GET http://localhost:8086/books?point_startTime[]=09:00
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по времени начала работы пункта обмена", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[point_startTime] : Некорректный тип данных времени начала работы  пункта обмена | [point_startTime] : This value should be of type string. | ", "Ожидалось 'Incorrect point_startTime'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска книги по времени окончания работы пункта обмена
+GET http://localhost:8086/books?point_endTime[]=18:00
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска книги по времени окончания работы пункта обмена", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "[point_endTime] : Некорректный тип данных закрытия работы  пункта обмена | [point_endTime] : This value should be of type string. | ", "Ожидалось 'Incorrect point_endTime'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}

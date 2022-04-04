@@ -1,0 +1,175 @@
+
+### Тестирование поиска пункта обмена по id
+GET http://localhost:8086/points/1
+
+> {%
+client.test("Тестирование поиска пункта обмена по id", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body["id"] === 1, "некорректный id пункта обмена");
+client.assert(response.body["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер телефона пункта обмена");
+client.assert(response.body["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта обмена");
+client.assert(response.body["startTime"] === "09:00", "некорректное время начала работы пункта обмена");
+client.assert(response.body["endTime"] === "18:00", "некорректное время окончания работы пункта обмена");
+});
+ %}
+
+### Тестирование ситуации, когда указан не существующий ID пункта обмена
+GET http://localhost:8086/points/0
+
+> {%
+ client.test("Тестирование ситуации, когда указан не существующий ID автора", function() {
+
+    client.assert(response.status === 404, "Был получен код '" + response.status + "', ожидалось 404.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "entity not found", "Ожидалось 'entity not found'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+    });
+ %}
+
+
+
+### Тестирование поиска пункта обмена по id
+GET http://localhost:8086/points?id=1
+
+> {%
+client.test("Тестирование поиска пункта обмена по id", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id пункта обмена");
+client.assert(response.body[0]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер телефона пункта обмена");
+client.assert(response.body[0]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта обмена");
+client.assert(response.body[0]["startTime"] === "09:00", "некорректное время начала работы пункта обмена");
+client.assert(response.body[0]["endTime"] === "18:00", "некорректное время окончания работы пункта обмена");
+});
+ %}
+
+### Тестирование поиска пункта обмена по номеру телефона
+GET http://localhost:8086/points?phoneNumber=%2B7 (962) 448-19-25
+
+> {%
+client.test("Тестирование поиска пункта обмена по номеру телефона", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id пункта обмена");
+client.assert(response.body[0]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер телефона пункта обмена");
+client.assert(response.body[0]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта обмена");
+client.assert(response.body[0]["startTime"] === "09:00", "некорректное время начала работы пункта обмена");
+client.assert(response.body[0]["endTime"] === "18:00", "некорректное время окончания работы пункта обмена");
+});
+ %}
+
+### Тестирование поиска пункта обмена по адресу
+GET http://localhost:8086/points?address=Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200
+
+> {%
+client.test("Тестирование поиска пункта обмена по адресу", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id пункта обмена");
+client.assert(response.body[0]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер телефона пункта обмена");
+client.assert(response.body[0]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта обмена");
+client.assert(response.body[0]["startTime"] === "09:00", "некорректное время начала работы пункта обмена");
+client.assert(response.body[0]["endTime"] === "18:00", "некорректное время окончания работы пункта обмена");
+});
+ %}
+
+
+### Тестирование поиска пункта обмена по времени начала работы
+GET http://localhost:8086/points?startTime=08:00
+
+> {%
+client.test("Тестирование поиска пункта обмена по времени начала работы", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 4, "некорректный id пункта обмена");
+client.assert(response.body[0]["phoneNumber"] === "+7 (902) 685-24-76", "некорректный номер телефона пункта обмена");
+client.assert(response.body[0]["address"] === "Россия, г. Бузулук, Аналик ул., д. 4 кв.126", "некорректный адрес пункта обмена");
+client.assert(response.body[0]["startTime"] === "08:00", "некорректное время начала работы пункта обмена");
+client.assert(response.body[0]["endTime"] === "20:00", "некорректное время окончания работы пункта обмена");
+});
+ %}
+
+##############################################
+
+### Ломаные запросы. Тестирование поиска пункта обмена по id
+GET http://localhost:8086/points?id[]=1
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска пункта обмена по id", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Неверный тип данных идентификатора пункта обмена", "Ожидалось 'Неверный тип данных идентификатора пункта обмена'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска пункта обмена по номеру телефона
+GET http://localhost:8086/points?phoneNumber[]=%2B7 (962) 448-19-25
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска пункта обмена по номеру телефона", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Неверный тип данных номера телефона пункта обмена", "Неверный тип данных номера телефона пункта обмена'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска пункта обмена по адресу
+GET http://localhost:8086/points?address[]=Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска пункта обмена по адресу", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Неверный тип данных адреса пункта обмена", "Ожидалось 'Неверный тип данных адреса пункта обмена'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска пункта обмена по времени начала работы
+GET http://localhost:8086/points?startTime[]=09:00
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска пункта обмена по времени начала работы", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Неверный тип данных времени начала работы пункта обмена", "Ожидалось 'Неверный тип данных времени начала работы пункта обмена'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}
+
+### Ломаные запросы. Тестирование поиска пункта обмена по времени окончания работы
+GET http://localhost:8086/points?endTime[]=18:00
+
+> {%
+client.test("Ломаные запросы. Тестирование поиска пункта обмена по времени окончания работы", function (){
+    client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
+    client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
+         response.contentType.mimeType + "', ожидалось 'application/json'.");
+    client.assert(response.body["message"] === "Неверный тип данных времени завершения работы пункта обмена", "Ожидалось 'Неверный тип данных времени завершения работы пункта обмена'. " +
+        "Было получено '" + response.body["message"] + "'.");
+    client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
+        response.body["status"] + "'.");
+});
+ %}

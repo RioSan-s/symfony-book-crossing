@@ -12,9 +12,19 @@
         "symfony/flex": "^1.17|^2",
         "symfony/framework-bundle": "5.4.*",
         "symfony/runtime": "5.4.*",
-        "symfony/yaml": "5.4.*"
+        "symfony/yaml": "5.4.*",
+        "doctrine/orm": "^2.11",
+        "doctrine/doctrine-bundle": "^2.6",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "symfony/twig-bundle": "^5.4",
+        "symfony/expression-language": "^5.4",
+        "symfony/monolog-bundle": "^3.7",
+        "ext-json": "*"
+
     },
     "require-dev": {
+        "symfony/stopwatch": "5.4.*",
+        "symfony/web-profiler-bundle": "5.4.*"
     },
     "config": {
         "allow-plugins": {
@@ -30,12 +40,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "NonEfTech\\BookCrossing\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "NonEfTech\\BookCrossingTest\\": "tests"
         }
     },
     "replace": {

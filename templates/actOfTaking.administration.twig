@@ -1,0 +1,85 @@
+
+<style>
+    form label {
+        display: block;
+    }
+
+    div {
+        padding: 5px 0;
+    }
+
+
+</style>
+
+<h1>BookCrossing Page</h1>
+
+<div>
+    <h2>Добавить акт взятия</h2>
+    <form method="POST">
+        <input type="hidden" value="actOfTaking" name="act">
+        <div>
+            <label for="actOfTaking_book_id">Название книги</label>
+            <select name="book_id" id="actOfTaking_book_id">
+                {% for book in books %}
+                    <option value="{{ book.getId() }}"> {{ book.getTitle }} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="actOfTaking_count">Количество книг</label>
+            <input type="text" name="count" id="actOfTaking_count" placeholder="Введите количество книг">
+            {% if formValidationResults.act.count is defined %}
+                <ul>
+                    {% for err in formValidationResults.act.count  %}
+                        <li>{{ err }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div>
+            <label for="actOfTaking_participant_id">ФИО пользователя</label>
+            <select name="participant_id" id="actOfTaking_participant_id">
+                {% for participant in participants %}
+                <option value="{{ participant.getId }}"> {{ participant.getFio }} </option>
+                {% endfor %}
+            </select>
+
+        </div>
+
+        <div>
+            <input type="submit" value="Добавить">
+        </div>
+
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Название книги</th>
+        <th>Количество книг</th>
+        <th>ФИО пользователя</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for valueActOfTaking in actOfTaking  %}
+
+        <tr>
+            <td>
+                {{ loop.index }}
+                </td>
+            <td>
+                {{ valueActOfTaking.getBook().getTitle() }}</td>
+            <td>
+                {{ valueActOfTaking.getCount }}
+            </td>
+            <td>
+                {{ valueActOfTaking.getParticipant().getFio() }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
