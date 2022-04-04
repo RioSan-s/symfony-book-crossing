@@ -1,0 +1,16 @@
+monolog:
+    handlers:
+        stream_debug:
+            type: stream
+            path: "%kernel.logs_dir%/debug.log"
+            level: debug
+        stream_error:
+            type: stream
+            path: "%kernel.logs_dir%/error.log"
+            level: error
+        telegram:
+            type: service
+            path: "%kernel.logs_dir%/error.log"
+            id: Monolog\Handler\TelegramBotHandler
+
+
