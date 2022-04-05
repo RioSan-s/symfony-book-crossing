@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 use Throwable;
 
 /**
@@ -34,16 +37,26 @@ class CreateIdActOfTakingController extends AbstractController
 
 
     /**
+     * Сервис валидации
+     *
+     * @var ValidatorInterface
+     */
+    private ValidatorInterface $validator;
+
+
+    /**
      * @param ArrivalNewActOfTakingService $arrivalNewActOfTakingService
      * @param EntityManagerInterface $em
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         ArrivalNewActOfTakingService $arrivalNewActOfTakingService,
-        EntityManagerInterface $em
-    )
-    {
+        EntityManagerInterface $em,
+        ValidatorInterface $validator
+    ) {
         $this->arrivalNewActOfTakingService = $arrivalNewActOfTakingService;
         $this->em = $em;
+        $this->validator = $validator;
     }
 
 
@@ -88,40 +101,58 @@ class CreateIdActOfTakingController extends AbstractController
      * @param $requestData
      *
      * @return array
+     * @throws \Exception
      */
     private function validateData($requestData)
     {
-        $err = [];
-        if (false === is_array($requestData)) {
-            $err[] = 'Данные о акте взятия не являются массивом';
-        } else {
-            if (false === array_key_exists('book_id', $requestData)) {
-                $err[] = 'Отсутствует информация о книге';
-            } elseif (null === $requestData['book_id']) {
-                $err[] = 'id книги не должно иметь значение null';
-            } elseif (false === is_int($requestData['book_id'])) {
-                $err[] = 'id книги должно быть числом ';
-            }
+        $constraint = [
+            new Assert\Type(['type' => 'array', 'message' => 'Данные о акте взятия не являются массивом']),
+            new Assert\Collection(
+                [
+                    'allowExtraFields' => false,
+                    'allowMissingFields' => false,
+                    'missingFieldsMessage' => 'Отсутствует обязательное поле: {{ field }}',
+                    'extraFieldsMessage' => 'Есть лишние поля: {{ field }}',
+                    'fields' => [
+                        'book_id' => [
+                            new Assert\Type(['type' => 'int', 'message' => 'id книги должно быть числом']),
+                            new Assert\NotNull(
+                                [
+                                    'message' => 'id книги не может отсутствовать',
+                                ]
+                            ),
+                            new Assert\Positive(['message' => 'id книги не может быть меньше нуля']),
+                        ],
+                        'count' =>
+                            [
+                                new Assert\Type(['type' => 'int', 'message' => 'Количество книг должно быть числом']),
+                                new Assert\NotNull(
+                                    [
+                                        'message' => 'Количество книг не может отсутствовать',
+                                    ]
+                                ),
+                                new Assert\Positive(['message' => 'Количество книг не может быть меньше нуля']),
+                            ],
+                        'participant_id' =>
+                            [
+                                new Assert\Type(['type' => 'int', 'message' => 'id участника обмена должно быть числом']
+                                ),
+                                new Assert\NotNull(
+                                    [
+                                        'message' => 'id участника обмена не может отсутствовать',
+                                    ]
+                                ),
+                                new Assert\Positive(['message' => 'id участника обмена не может быть меньше нуля']),
+                            ]
+                    ]
+                ]
+            ),
+        ];
 
-            if (false === array_key_exists('count', $requestData)) {
-                $err[] = 'Отсутствует информация о количестве книг';
-            } elseif (null === $requestData['count']) {
-                $err[] = 'Количество книг не должно иметь значение null';
-            } elseif (false === is_int($requestData['count'])) {
-                $err[] = 'Количество книг должно быть числом ';
-            } elseif ($requestData['count'] < 0) {
-                $err[] = 'Количество книг не может быть меньше нуля';
-            }
-
-            if (false === array_key_exists('participant_id', $requestData)) {
-                $err[] = 'Отсутствует информация о пользователе';
-            } elseif (null === $requestData['participant_id']) {
-                $err[] = 'id пользователя не должно иметь значение null';
-            } elseif (false === is_int($requestData['participant_id'])) {
-                $err[] = 'id пользователя должно быть числом ';
-            }
-        }
-        return $err;
+        $errors = $this->validator->validate($requestData, $constraint);
+        return array_map(static function ($v) {
+            return $v->getMessage();
+        }, $errors->getIterator()->getArrayCopy());
     }
 
     /**

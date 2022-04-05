@@ -2,8 +2,8 @@
 
 namespace NonEfTech\BookCrossing\Controller;
 
-use NonEfTech\BookCrossing\Exception\RuntimeException;
 
+use NonEfTech\BookCrossing\Form\LoginForm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,12 +39,15 @@ class LoginController extends AbstractController
      */
     private function doLogin(Request $serverRequest): Response
     {
+        $formLogin = $this->createForm(LoginForm::class);
+        $formLogin->handleRequest($serverRequest);
         $response = null;
-        $context = [];
-        if ('POST' === $serverRequest->getMethod()) {
-            $authData = $serverRequest->request->all();
-//            $this->validateAuthData($authData);
+        $context =
+            ['form_login' => $formLogin];
 
+
+        if ($formLogin->isSubmitted() && $formLogin->isValid()) {
+            $authData = $formLogin->getData();
             if ($this->isAuth($authData['login'], $authData['password'])) {
                 $response =
                     $serverRequest->query->has('redirect')
@@ -56,32 +59,11 @@ class LoginController extends AbstractController
         }
 
         if (null === $response) {
-            $response= $this->render('login.twig', $context);
+            $response = $this->renderForm('login.twig', $context);
         }
         return $response;
-    }
 
-//    /**
-//     * Логика валидации
-//     *
-//     * @param array $authData
-//     */
-//    private function validateAuthData(array $authData): void
-//    {
-//        if (false === array_key_exists('login', $authData)) {
-//            throw new RuntimeException('Отсутсвует логин');
-//        }
-//        if (false === is_string($authData['login'])) {
-//            throw new RuntimeException('неправильный тип логина');
-//        }
-//
-//        if (false === array_key_exists('password', $authData)) {
-//            throw new RuntimeException('Отсутсвует пароль');
-//        }
-//        if (false === is_string($authData['password'])) {
-//            throw new RuntimeException('неправильный тип пароля');
-//        }
-//    }
+    }
 
     /**
      * Проводит аутентификацию пользователя

@@ -6,7 +6,8 @@ namespace NonEfTech\BookCrossing\Controller;
 use NonEfTech\BookCrossing\Service\SearchBooksService;
 use NonEfTech\BookCrossing\Service\SearchBooksService\BooksDto;
 use NonEfTech\BookCrossing\Service\SearchBooksService\SearchBooksCriteria;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,19 +30,28 @@ class GetBooksCollectionController extends AbstractController
      */
     private SearchBooksService $searchBooksService;
 
+    /**
+     * Сервис валидации
+     *
+     * @var ValidatorInterface
+     */
+    private ValidatorInterface $validator;
+
 
     /**
      * @param LoggerInterface $logger
      * @param SearchBooksService $searchBooksService
-
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         LoggerInterface $logger,
-        SearchBooksService $searchBooksService
+        SearchBooksService $searchBooksService,
+        ValidatorInterface $validator
     ) {
         $this->logger = $logger;
 
         $this->searchBooksService = $searchBooksService;
+        $this->validator = $validator;
     }
 
     /**
@@ -51,9 +61,8 @@ class GetBooksCollectionController extends AbstractController
      */
     public function __invoke(Request $request): Response
     {
-        $this->logger->info("Ветка ActOfTaking");
-        $resultOfParamValidation = null;
-        //$this->booksValidator($request);
+        $this->logger->info("Ветка books");
+        $resultOfParamValidation = $this->booksValidator($request);
 
         if (null === $resultOfParamValidation) {
             $params = array_merge($request->query->all(), $request->attributes->all());
@@ -96,138 +105,137 @@ class GetBooksCollectionController extends AbstractController
         }
 
 
-        return $this->json($result,$httpCode);
+        return $this->json($result, $httpCode);
     }
 
-//    /**
-//     *
-//     * Валидация передаваемых данных
-//     * @param ServerRequestInterface $serverRequest
-//     *
-//     * @return string|null
-//     */
-//    private function booksValidator(ServerRequestInterface $serverRequest): ?string
-//    {
-//        $validator = Validation::createValidator();
-//        $params = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
-//        $constraint = new Assert\Collection(
-//            [
-//                'fields' => [
-//                    'id' => [
-//                        new Assert\Type(['type' => 'string'], 'Некорректный тип данных id книги'),
-//                        new Assert\NotNull(['message' => 'Отсутствует заголовка книги']),
-//                        new Assert\NotBlank(['message' => 'Заголовок книги не должен быть пустой строкой']),
-//                    ],
-//                    'title' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует заголовка книги']),
-//                            new Assert\NotBlank(['message' => 'Заголовок книги не должен быть пустой строкой']),
-//                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных заголовка книги'),
-//
-//                        ],
-//                    'author' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует автор книги']),
-//                            new Assert\NotBlank(['message' => 'Автор книги не должен быть пустой строкой']),
-//                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных автора книги'),
-//                        ],
-//                    'publishingHouse' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует автор книги']),
-//                            new Assert\NotBlank(['message' => 'Автор книги не должен быть пустой строкой']),
-//                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных издания автора книги'),
-//                        ],
-//                    'yearOfPublication' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует год публикации книги']),
-//                            new Assert\NotBlank(['message' => 'год публикациине должен быть пустой строкой']),
-//                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных года публикации книги'),
-//                            new Assert\Length(
-//                                [
-//                                    'min' => 10,
-//                                    'max' => 10,
-//                                    'exactMessage' => 'Длина поля год должна состоять из 4 символов',
-//                                ]
-//                            ),
-//                        ],
-//                    'point_id' => [
-//                        new Assert\Type(['type' => 'string'], 'Некорректный тип данных id пункта обмена'),
-//                        new Assert\NotNull(['message' => 'Отсутствует id пункта обмена книги']),
-//                        new Assert\NotBlank(['message' => 'id пункта обмена не должен быть пустой строкой']),
-//                    ],
-//                    'point_phoneNumber' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует телефон пункта обмена']),
-//                            new Assert\NotBlank(['message' => 'Телефон пункта обмена должен быть пустой строкой']),
-//                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных телефона пункта обмена'),
-//                            new Assert\Length(
-//                                [
-//                                    'min' => 18,
-//                                    'max' => 18,
-//                                    'exactMessage' => 'Некорректная длина номера телефона',
-//                                ]
-//                            ),
-//                        ],
-//                    'point_address' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует адрес пункта обмена']),
-//                            new Assert\NotBlank(['message' => 'Адрес пункта обмена не должен быть пустой строкой']),
-//                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных адреса пункта обмена'),
-//                        ],
-//                    'point_startTime' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует время начала работы пункта обмена']),
-//                            new Assert\NotBlank(
-//                                ['message' => 'Время начала работы пункта обмена не должен быть пустой строкой']
-//                            ),
-//                            new Assert\Type(
-//                                ['type' => 'string'],
-//                                'Некорректный тип данных времени начала работы  пункта обмена'
-//                            ),
-//                            new Assert\Length(
-//                                [
-//                                    'min' => 5,
-//                                    'max' => 5,
-//                                    'exactMessage' => 'Некорректное время открытия пункта обмена',
-//                                ]
-//                            ),
-//                        ],
-//                    'point_endTime' =>
-//                        [
-//                            new Assert\NotNull(['message' => 'Отсутствует время закрытия пункта обмена']),
-//                            new Assert\NotBlank(
-//                                ['message' => 'Время закрытия пункта обмена не должен быть пустой строкой']
-//                            ),
-//                            new Assert\Type(
-//                                ['type' => 'string'],
-//                                'Некорректный тип данных закрытия работы  пункта обмена'
-//                            ),
-//                            new Assert\Length(
-//                                [
-//                                    'min' => 5,
-//                                    'max' => 5,
-//                                    'exactMessage' => 'Некорректное время закрытия пункта обмена',
-//                                ]
-//                            ),
-//                        ]
-//                ],
-//                'allowMissingFields' => true,
-//            ],
-//        );
-//
-//        $violations = $validator->validate($params, $constraint);
-//
-//        $errors = '';
-//        if (0 !== count($violations)) {
-//            foreach ($violations as $violation) {
-//                $errors .= $violation->getPropertyPath() . ' : ' . $violation->getMessage() . " | ";
-//            }
-//        } else {
-//            $errors = null;
-//        }
-//
-//        return $errors;
-//    }
+    /**
+     *
+     * Валидация передаваемых данных
+     * @param Request $serverRequest
+     *
+     * @return string|null
+     * @throws \Exception
+     */
+    private function booksValidator(Request $serverRequest): ?string
+    {
+
+        $params = array_merge($serverRequest->query->all(), $serverRequest->attributes->all());
+        $constraint = new Assert\Collection(
+            [
+                'allowExtraFields' => true,
+                'allowMissingFields' => true,
+                'fields' => [
+                    'id' => [
+                        new Assert\Type(['type' => 'string'], 'Некорректный тип данных id книги'),
+                        new Assert\NotNull(['message' => 'Отсутствует заголовка книги']),
+                        new Assert\NotBlank(['message' => 'Заголовок книги не должен быть пустой строкой']),
+                    ],
+                    'title' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует заголовка книги']),
+                            new Assert\NotBlank(['message' => 'Заголовок книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных заголовка книги'),
+
+                        ],
+                    'author' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует автор книги']),
+                            new Assert\NotBlank(['message' => 'Автор книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных автора книги'),
+                        ],
+                    'publishingHouse' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует автор книги']),
+                            new Assert\NotBlank(['message' => 'Автор книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных издания автора книги'),
+                        ],
+                    'yearOfPublication' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует год публикации книги']),
+                            new Assert\NotBlank(['message' => 'год публикациине должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных года публикации книги'),
+                            new Assert\Length(
+                                [
+                                    'min' => 10,
+                                    'max' => 10,
+                                    'exactMessage' => 'Длина поля год должна состоять из 4 символов',
+                                ]
+                            ),
+                        ],
+                    'point_id' => [
+                        new Assert\Type(['type' => 'string'], 'Некорректный тип данных id пункта обмена'),
+                        new Assert\NotNull(['message' => 'Отсутствует id пункта обмена книги']),
+                        new Assert\NotBlank(['message' => 'id пункта обмена не должен быть пустой строкой']),
+                    ],
+                    'point_phoneNumber' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует телефон пункта обмена']),
+                            new Assert\NotBlank(['message' => 'Телефон пункта обмена должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных телефона пункта обмена'),
+                            new Assert\Length(
+                                [
+                                    'min' => 18,
+                                    'max' => 18,
+                                    'exactMessage' => 'Некорректная длина номера телефона',
+                                ]
+                            ),
+                        ],
+                    'point_address' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует адрес пункта обмена']),
+                            new Assert\NotBlank(['message' => 'Адрес пункта обмена не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных адреса пункта обмена'),
+                        ],
+                    'point_startTime' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует время начала работы пункта обмена']),
+                            new Assert\NotBlank(
+                                ['message' => 'Время начала работы пункта обмена не должен быть пустой строкой']
+                            ),
+                            new Assert\Type(
+                                ['type' => 'string'],
+                                'Некорректный тип данных времени начала работы  пункта обмена'
+                            ),
+                            new Assert\Length(
+                                [
+                                    'min' => 5,
+                                    'max' => 5,
+                                    'exactMessage' => 'Некорректное время открытия пункта обмена',
+                                ]
+                            ),
+                        ],
+                    'point_endTime' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует время закрытия пункта обмена']),
+                            new Assert\NotBlank(
+                                ['message' => 'Время закрытия пункта обмена не должен быть пустой строкой']
+                            ),
+                            new Assert\Type(
+                                ['type' => 'string'],
+                                'Некорректный тип данных закрытия работы  пункта обмена'
+                            ),
+                            new Assert\Length(
+                                [
+                                    'min' => 5,
+                                    'max' => 5,
+                                    'exactMessage' => 'Некорректное время закрытия пункта обмена',
+                                ]
+                            ),
+                        ]
+                ],
+            ],
+        );
+
+        $errors = $this->validator->validate($params, $constraint);
+        $errStrCollection = array_map(
+            static function ($v) {
+                return $v->getMessage();
+            },
+            $errors->getIterator()
+                ->getArrayCopy()
+        );
+        return count($errStrCollection) > 0 ? implode(',', $errStrCollection) : null;
+    }
 
     protected function buildResult(array $foundOfBooks): array
     {

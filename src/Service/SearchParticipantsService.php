@@ -4,7 +4,7 @@ namespace NonEfTech\BookCrossing\Service;
 
 use NonEfTech\BookCrossing\Entity\Participant;
 use NonEfTech\BookCrossing\Entity\ParticipantRepositoryInterface;
-use NonEfTech\BookCrossing\Service\SearchActOfTakingService\ParticipantsDto;
+use NonEfTech\BookCrossing\Service\SearchParticipantsService\ParticipantsDto;
 use NonEfTech\BookCrossing\Service\SearchParticipantsService\SearchParticipantsCriteria;
 use Psr\Log\LoggerInterface;
 

@@ -267,7 +267,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[id] : Некорректный тип данных id книги | ", "Ожидалось 'Incorrect id'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных id книги", "Ожидалось 'Incorrect id'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -282,7 +282,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[title] : Некорректный тип данных заголовка книги | ", "Ожидалось '[title] : Некорректный тип данных заголовка книги'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных заголовка книги", "Ожидалось '[title] : Некорректный тип данных заголовка книги'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -297,7 +297,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[author] : Некорректный тип данных автора книги | ", "Ожидалось '[author] : Некорректный тип данных автора книги'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных автора книги", "Ожидалось '[author] : Некорректный тип данных автора книги'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -312,7 +312,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[publishingHouse] : Некорректный тип данных издания автора книги | ", "Ожидалось '[publishingHouse] : Некорректный тип данных автора книги'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных издания автора книги", "Ожидалось '[publishingHouse] : Некорректный тип данных автора книги'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -327,7 +327,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[yearOfPublication] : Некорректный тип данных года публикации книги | [yearOfPublication] : This value should be of type string. | ", "Ожидалось 'Incorrect yearOfPublication'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных года публикации книги,This value should be of type string.", "Ожидалось 'Incorrect yearOfPublication'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -342,7 +342,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[point_id] : Некорректный тип данных id пункта обмена | ", "Ожидалось '[point_id] : Некорректный тип данных id пункта обмена'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных id пункта обмена", "Ожидалось '[point_id] : Некорректный тип данных id пункта обмена'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -357,7 +357,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[point_phoneNumber] : Некорректный тип данных телефона пункта обмена | [point_phoneNumber] : This value should be of type string. | ", "Ожидалось 'Incorrect point_phoneNumber'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных телефона пункта обмена,This value should be of type string.", "Ожидалось 'Incorrect point_phoneNumber'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -372,7 +372,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[point_address] : Некорректный тип данных адреса пункта обмена | ", "Ожидалось '[point_address] : Некорректный тип данных адреса пункта обмена |'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных адреса пункта обмена", "Ожидалось '[point_address] : Некорректный тип данных адреса пункта обмена |'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -387,7 +387,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[point_startTime] : Некорректный тип данных времени начала работы  пункта обмена | [point_startTime] : This value should be of type string. | ", "Ожидалось 'Incorrect point_startTime'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных времени начала работы  пункта обмена,This value should be of type string.", "Ожидалось 'Incorrect point_startTime'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");
@@ -402,7 +402,7 @@ client.test("Ломаные запросы. Тестирование поиск�
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "[point_endTime] : Некорректный тип данных закрытия работы  пункта обмена | [point_endTime] : This value should be of type string. | ", "Ожидалось 'Incorrect point_endTime'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных закрытия работы  пункта обмена,This value should be of type string.", "Ожидалось 'Incorrect point_endTime'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");

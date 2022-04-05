@@ -10,6 +10,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class GetActOfTakingCollectionController extends AbstractController
 {
@@ -27,20 +29,28 @@ class GetActOfTakingCollectionController extends AbstractController
      */
     private SearchActOfTakingService $searchActOfTakingService;
 
-
+    /**
+     * Сервис валидации
+     *
+     * @var ValidatorInterface
+     */
+    private ValidatorInterface $validator;
 
 
 
     /**
      * @param LoggerInterface $logger
      * @param SearchActOfTakingService $searchActOfTakingService
+     * @param ValidatorInterface $validator
      */
     public function __construct(
         LoggerInterface $logger,
-        SearchActOfTakingService $searchActOfTakingService
+        SearchActOfTakingService $searchActOfTakingService,
+        ValidatorInterface $validator
     ) {
         $this->logger = $logger;
         $this->searchActOfTakingService = $searchActOfTakingService;
+        $this->validator = $validator;
     }
 
     /**
@@ -51,8 +61,8 @@ class GetActOfTakingCollectionController extends AbstractController
     public function __invoke(Request $request): Response
     {
         $this->logger->info("Ветка ActOfTaking");
-        $resultOfParamValidation = null;
-//        $this->validateQueryParams($request);
+        $resultOfParamValidation = $this->validateQueryParams($request);
+
 
         if (null === $resultOfParamValidation) {
             $params = array_merge($request->query->all(), $request->attributes->all());
@@ -141,39 +151,140 @@ class GetActOfTakingCollectionController extends AbstractController
 
         return $this->json( $result, $httpCode);
     }
-//
-//    /**
-//     * Валидация данных
-//     *
-//     * @param ServerRequestInterface $serverRequest
-//     *
-//     * @return string|null
-//     * @noinspection DuplicatedCode
-//     */
-//    private function validateQueryParams(ServerRequestInterface $serverRequest): ?string
-//    {
-//        $paramForValidations = [
-//            'id' => 'Incorrect id',
-//            'count' => 'Incorrect count',
-//            'book_id' => 'Incorrect book_id',
-//            'book_title' => 'Incorrect book_title',
-//            'book_author' => 'Incorrect book_author',
-//            'book_publishingHouse' => 'Incorrect book_publishingHouse',
-//            'book_yearOfPublication' => 'Incorrect book_yearOfPublication',
-//            'book_point_id' => 'Incorrect book_point_id',
-//            'book_point_phoneNumber' => 'Incorrect book_point_phoneNumber',
-//            'book_point_address' => 'Incorrect book_point_address',
-//            'book_point_startTime' => 'Incorrect book_point_startTime',
-//            'book_point_endTime' => 'Incorrect book_point_endTime',
-//            'participant_id' => 'Incorrect participant_id',
-//            'participant_fio' => 'Incorrect participant_fio',
-//            'participant_phoneNumber' => 'Incorrect participant_phoneNumber',
-//            'participant_dateOfBirth' => 'Incorrect participant_dateOfBirth',
-//            'participant_email' => 'Incorrect participant_email',
-//        ];
-//        $params = array_merge($serverRequest->getQueryParams(), $serverRequest->getAttributes());
-//        return Assert::arrayElementsIsString($paramForValidations, $params);
-//    }
+
+    /**
+     * Валидация данных
+     *
+     * @param Request $serverRequest
+     *
+     * @return string|null
+     * @noinspection DuplicatedCode
+     */
+    private function validateQueryParams(Request $serverRequest): ?string
+    {
+        $params = array_merge($serverRequest->query->all(), $serverRequest->attributes->all());
+        $constraint=
+            new Assert\Collection(
+                [
+                    'allowExtraFields'   => true,
+                    'allowMissingFields' => false,
+                    'fields'             => [
+                        'id'  =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect id']),
+                                ]
+                            ),
+                        'count'       =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect count']),
+                                ]
+                            ),
+                        'book_id'     =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_id']),
+                                ]
+                            ),
+                        'book_title'  =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_title']),
+                                ]
+                            ),
+                        'book_author' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_author']),
+                                ]
+                            ),
+                        'book_publishingHouse' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_publishingHouse']),
+                                ]
+                            ),
+                        'book_yearOfPublication' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_yearOfPublication']),
+                                ]
+                            ),
+                        'book_point_id' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_id']),
+                                ]
+                            ),
+                        'book_point_phoneNumber' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_phoneNumber']),
+                                ]
+                            ),
+                        'book_point_address' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_address']),
+                                ]
+                            ),
+                        'book_point_startTime' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_startTime']),
+                                ]
+                            ),
+                        'book_point_endTime' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_endTime']),
+                                ]
+                            ),
+                        'participant_id' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_id']),
+                                ]
+                            ),
+                        'participant_fio' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' =>'Incorrect participant_fio']),
+                                ]
+                            ),
+                        'participant_phoneNumber' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_phoneNumber']),
+                                ]
+                            ),
+                        'participant_dateOfBirth' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_dateOfBirth']),
+                                ]
+                            ),
+                        'participant_email' =>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_email']),
+                                ]
+                            ),
+                    ],
+                ]
+            );
+
+        $errors = $this->validator->validate($params, $constraint);
+        $errStrCollection = array_map(static function ($v) {
+            return $v->getMessage();
+        },
+            $errors->getIterator()
+                ->getArrayCopy()
+        );
+        return count($errStrCollection) > 0 ? implode(',', $errStrCollection) : null;
+
+    }
 
     protected function buildResult(array $foundActOfTakings): array
     {

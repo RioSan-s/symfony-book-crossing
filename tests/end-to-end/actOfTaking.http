@@ -5,8 +5,8 @@ Content-Type: application/json
 {
   "book_id": 5,
   "count": 1,
-  "participant_id": 5,
-  "type":"taking"
+  "participant_id": 5
+
 }
 
 > {%

@@ -5,6 +5,7 @@ namespace NonEfTech\BookCrossing\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use NonEfTech\BookCrossing\Exception\RuntimeException;
 
+use NonEfTech\BookCrossing\Form\CreateActOfTakingForm;
 use NonEfTech\BookCrossing\Service\ArrivalNewActOfTakingService;
 use NonEfTech\BookCrossing\Service\ArrivalNewActOfTakingService\NewActOfTakingDto;
 use NonEfTech\BookCrossing\Service\SearchActOfTakingService;
@@ -22,12 +23,6 @@ use Throwable;
 
 class ActOfTakingAdministrationController extends AbstractController
 {
-    /**
-     * Логер
-     *
-     * @var LoggerInterface
-     */
-    private LoggerInterface $logger;
 
 
     /**
@@ -37,20 +32,6 @@ class ActOfTakingAdministrationController extends AbstractController
      */
     private SearchActOfTakingService $actOfTakingService;
 
-
-    /**
-     * Сервис поиска книг
-     *
-     * @var SearchBooksService
-     */
-    private SearchBooksService $booksService;
-
-    /**
-     * Сервис поиска пользователей
-     *
-     * @var SearchParticipantsService
-     */
-    private SearchParticipantsService $participantsService;
 
     /**
      * Соединение с бд
@@ -69,84 +50,48 @@ class ActOfTakingAdministrationController extends AbstractController
 
 
     /**
-     * @param LoggerInterface $logger
      * @param SearchActOfTakingService $actOfTakingService
-     * @param SearchBooksService $booksService
-     * @param SearchParticipantsService $participantsService
      * @param ArrivalNewActOfTakingService $arrivalNewActOfTakingService
      * @param EntityManagerInterface $em
      */
     public function __construct(
-        LoggerInterface $logger,
-        SearchActOfTakingService $actOfTakingService,
 
-        SearchBooksService $booksService,
-        SearchParticipantsService $participantsService,
+        SearchActOfTakingService $actOfTakingService,
         ArrivalNewActOfTakingService $arrivalNewActOfTakingService,
         EntityManagerInterface $em
     ) {
-        $this->logger = $logger;
         $this->actOfTakingService = $actOfTakingService;
-        $this->booksService = $booksService;
-        $this->participantsService = $participantsService;
         $this->arrivalNewActOfTakingService = $arrivalNewActOfTakingService;
         $this->em = $em;
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
     public function __invoke(Request $request): Response
     {
-        try {
-            $this->logger->info('run TextDocumentAdministrationController::__invoke');
+        $formActs = $this->createForm(CreateActOfTakingForm::class);
 
-//            if (false === $this->httpAuthProvider->isAuth()) {
-//                return $this->httpAuthProvider->doAuth($request->getUri());
-//            }
-
-            $resultCreatingActOfTaking = [];
-            if ('POST' === $request->getMethod()) {
-                $resultCreatingActOfTaking = $this->creationActOfTaking($request);
-            }
-            $dtoActOfTakingCollection = $this->actOfTakingService->search(new SearchActOfTakingCriteria());
-            $dtoBooksCollection = $this->booksService->search(new SearchBooksCriteria());
-            $dtoParticipantsCollection = $this->participantsService->search(new SearchParticipantsCriteria());
-
-            $viewData = [
-                'actOfTaking' => $dtoActOfTakingCollection,
-                'books' => $dtoBooksCollection,
-                'participants' => $dtoParticipantsCollection,
-                'formValidationResults' => $resultCreatingActOfTaking,
-            ];
-            $template = 'actOfTaking.administration.twig';
-            $httpCode = 200;
-            $context = array_merge($viewData, $resultCreatingActOfTaking);
-        } catch (Throwable $e) {
-            $httpCode = 500;
-            $template = 'errors.twig';
-            $context = [
-                'errors' => [
-                    $e->getMessage(),
-                ],
-            ];
+        $formActs->handleRequest($request);
+        if ($formActs->isSubmitted() && $formActs->isValid()) {
+            $this->createActOfTaking($formActs->getData());
+            $formActs = $this->createForm(CreateActOfTakingForm::class);
         }
 
-        $response = $this->render(
+        $template = 'actOfTaking.administration.twig';
+        $context = [
+            'form_act_of_taking' => $formActs,
+            'actOfTaking' => $this->actOfTakingService->search(new SearchActOfTakingCriteria()),
+
+        ];
+        $response = $this->renderForm(
             $template,
             $context
         );
-        $response->setStatusCode($httpCode);
-
         return $response;
     }
+
 
     private function creationActOfTaking(Request $request): array
     {
         $dataToCreate = $request->request->all();
-
-
 
         if (false === array_key_exists('act', $dataToCreate)) {
             throw new RuntimeException("Отсутствуют данные о акте");
