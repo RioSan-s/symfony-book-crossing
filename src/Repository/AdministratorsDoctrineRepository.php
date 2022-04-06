@@ -4,9 +4,10 @@ namespace NonEfTech\BookCrossing\Repository;
 
 
 use Doctrine\ORM\EntityRepository;
+use NonEfTech\BookCrossing\Entity\Administrator;
 use NonEfTech\BookCrossing\Entity\AdministratorRepositoryInterface;
 use NonEfTech\BookCrossing\Exception\RuntimeException;
-use NonEfTech\BookCrossing\Repository\AdministratorRepository\AdministratorDataProvider;
+
 
 class AdministratorsDoctrineRepository extends EntityRepository implements
     AdministratorRepositoryInterface
@@ -17,7 +18,7 @@ class AdministratorsDoctrineRepository extends EntityRepository implements
     /**
      * @inheritDoc
      */
-    public function findUserByLogin(string $login): ?AdministratorDataProvider
+    public function findUserByLogin(string $login): ?Administrator
     {
         $entities = $this->findBy(['login' => $login]);
         $countEntities = count($entities);
@@ -36,7 +37,7 @@ class AdministratorsDoctrineRepository extends EntityRepository implements
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder->select(['a','p'])
-            ->from(AdministratorDataProvider::class, 'a')
+            ->from(Administrator::class, 'a')
             ->leftJoin('a.point', 'p');
         $this->buildWhere($queryBuilder, $criteria);
 

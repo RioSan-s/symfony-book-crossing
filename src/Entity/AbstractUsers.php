@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="type",type="string",length=30)
  * @ORM\DiscriminatorMap({
- *     "admin" = \NonEfTech\BookCrossing\Repository\AdministratorRepository\AdministratorDataProvider::class,
+ *     "admin" = \NonEfTech\BookCrossing\Entity\Administrator::class,
  *     "participant" =\NonEfTech\BookCrossing\Entity\Participant::class
  *     })
  */

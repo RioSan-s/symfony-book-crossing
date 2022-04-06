@@ -1,17 +1,24 @@
-<?php
-
-use NonEfTech\BookCrossing;
-
-/**
- * @var array $errMessage ;
- */
-
-?>
+<html>
+<head>
+    <meta charset="UTF-8">
+    {%  block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
 <h1>Аутентификация</h1>
 
-<div>
+<div class="col-3">
     {{ form(form_login) }}
+    {% if errors %}
+        <div>
+            {{ errors.messageKey |trans(errors.messageData, 'security')}}
+        </div>
+    {% endif %}
 </div>
-{% if errMessage is defined %}
-{{ errMessage }}
-{% endif %}
+
+</body>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</html>

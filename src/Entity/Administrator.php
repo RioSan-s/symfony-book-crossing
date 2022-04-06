@@ -7,8 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Администратор
- * @ORM\MappedSuperclass()
- *
+ * @ORM\Entity(repositoryClass=\NonEfTech\BookCrossing\Repository\AdministratorsDoctrineRepository::class)
+ * @ORM\Table(name="admin",indexes={
+ *     @ORM\Index(name="admin_point_id_idx", columns={"point_id"})
+ *     },
+ *      uniqueConstraints=
+ *     {
+ *     @ORM\UniqueConstraint(name="admin_login_unq", columns={"login"})
+ *     })
  */
 class Administrator extends AbstractUsers
 {

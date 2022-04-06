@@ -2,13 +2,17 @@
 
 namespace NonEfTech\BookCrossing\Form;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormElement;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class LoginForm extends AbstractType
+class LoginForm extends \Symfony\Component\Form\AbstractType
 {
+    public function getBlockPrefix()
+    {
+        return '';
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setMethod('POST')

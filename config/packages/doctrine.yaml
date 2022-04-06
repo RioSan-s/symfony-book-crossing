@@ -14,11 +14,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'NonEfTech\BookCrossing\Entity'
            BookCrossingValueObject:
-                    dir: '%kernel.project_dir%/src/ValueObject'
-                    prefix: 'NonEfTech\BookCrossing\ValueObject'
-           BookCrossingRepository:
-               dir: '%kernel.project_dir%/src/Repository/AdministratorRepository'
-               prefix: 'NonEfTech\BookCrossing\Repository\AdministratorRepository'
+                dir: '%kernel.project_dir%/src/ValueObject'
+                prefix: 'NonEfTech\BookCrossing\ValueObject'
 
 when@test:
     doctrine:
