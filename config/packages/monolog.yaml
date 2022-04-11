@@ -8,9 +8,9 @@ monolog:
             type: stream
             path: "%kernel.logs_dir%/error.log"
             level: error
-        telegram:
-            type: service
-            path: "%kernel.logs_dir%/error.log"
-            id: Monolog\Handler\TelegramBotHandler
+#        telegram:
+#            type: service
+#            path: "%kernel.logs_dir%/error.log"
+#            id: Monolog\Handler\TelegramBotHandler
 
 

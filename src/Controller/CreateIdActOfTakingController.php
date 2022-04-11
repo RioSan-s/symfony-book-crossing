@@ -61,7 +61,6 @@ class CreateIdActOfTakingController extends AbstractController
 
 
     /**
-     * @Route("/actOfTaking/id", name="act_of_register",methods={"POST"})
      * @param Request $request
      * @return Response
      */

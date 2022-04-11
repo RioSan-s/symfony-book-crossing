@@ -52,9 +52,9 @@ services:
         factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
         arguments:
             $entityName: NonEfTech\BookCrossing\Entity\Administrator
-
-    Monolog\Handler\TelegramBotHandler:
-        arguments:
-            $apiKey: '%env(TELEGRAM_BOT_KEY)%'
-            $channel: '%env(TELEGRAM_CHANEL)%'
-            $level: 'error'
+#
+#    Monolog\Handler\TelegramBotHandler:
+#        arguments:
+#            $apiKey: '%env(TELEGRAM_BOT_KEY)%'
+#            $channel: '%env(TELEGRAM_CHANEL)%'
+#            $level: 'error'

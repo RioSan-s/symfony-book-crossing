@@ -55,3 +55,8 @@ act_of_taking_administration:
   path: /act-of-taking/administration
   controller: NonEfTech\BookCrossing\Controller\ActOfTakingAdministrationController::__invoke
   methods: [POST, GET]
+
+act_of_taking_register:
+  path: /actOfTaking/id
+  controller: NonEfTech\BookCrossing\Controller\CreateIdActOfTakingController::__invoke
+  methods: POST
