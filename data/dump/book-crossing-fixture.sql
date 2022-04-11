@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.2
--- Dumped by pg_dump version 14.2
+-- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -93,15 +93,13 @@ INSERT INTO public.act_of_taking VALUES (74, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (75, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (76, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (77, 5, 1, 5);
-INSERT INTO public.act_of_taking VALUES (79, 5, 1, 5);
-INSERT INTO public.act_of_taking VALUES (80, 5, 1, 5);
-INSERT INTO public.act_of_taking VALUES (81, 5, 1, 5);
-INSERT INTO public.act_of_taking VALUES (96, 1, 4, 3);
-INSERT INTO public.act_of_taking VALUES (97, 4, 2, 1);
 INSERT INTO public.act_of_taking VALUES (6, 4, 1, 7);
 INSERT INTO public.act_of_taking VALUES (7, 3, 1, 5);
 INSERT INTO public.act_of_taking VALUES (8, 1, 1, 1);
 INSERT INTO public.act_of_taking VALUES (29, 1, 4, 1);
+INSERT INTO public.act_of_taking VALUES (99, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (100, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (101, 5, 1, 5);
 
 
 --
@@ -134,6 +132,13 @@ INSERT INTO public.admin VALUES (12, 3, 10000, 'admin5', '$2y$10$ULC5LeqakqzJ9kY
 
 
 --
+-- Data for Name: black_list; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.black_list VALUES (1, 1, 'Просто так', true);
+
+
+--
 -- Data for Name: currency; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -145,6 +150,13 @@ INSERT INTO public.currency VALUES (1, '643', 'RUB', 'Рубль');
 --
 
 INSERT INTO public.doctrine_migration_versions VALUES ('NonEfTech\BookCrossing\Migrations\Version20220322163952', '2022-03-22 16:40:49', 53);
+
+
+--
+-- Data for Name: publication_house; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.publication_house VALUES (1, 'Эксмо', '2005-01-01', 'Человек');
 
 
 --
@@ -180,7 +192,7 @@ INSERT INTO public.users VALUES (12, 'Русских Виталий Гаврнн
 -- Name: act_of_taking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.act_of_taking_id_seq', 97, true);
+SELECT pg_catalog.setval('public.act_of_taking_id_seq', 101, true);
 
 
 --
@@ -188,6 +200,13 @@ SELECT pg_catalog.setval('public.act_of_taking_id_seq', 97, true);
 --
 
 SELECT pg_catalog.setval('public.acts_id_seq', 44, true);
+
+
+--
+-- Name: black_list_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.black_list_id_seq', 1, true);
 
 
 --
@@ -209,6 +228,13 @@ SELECT pg_catalog.setval('public.currency_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.points_id_seq', 5, true);
+
+
+--
+-- Name: publication_house_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.publication_house_id_seq', 1, false);
 
 
 --
