@@ -52,6 +52,11 @@ services:
         factory: [ '@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
         arguments:
             $entityName: NonEfTech\BookCrossing\Entity\Administrator
+
+    NonEfTech\BookCrossing\Entity\PublicationHouseInterface:
+        factory: ['@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\PublicationHouse
 #
 #    Monolog\Handler\TelegramBotHandler:
 #        arguments:

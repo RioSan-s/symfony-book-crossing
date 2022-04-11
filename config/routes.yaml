@@ -60,3 +60,8 @@ act_of_taking_register:
   path: /actOfTaking/id
   controller: NonEfTech\BookCrossing\Controller\CreateIdActOfTakingController::__invoke
   methods: POST
+
+publication_house:
+  path: /publicationHouse
+  controller: \NonEfTech\BookCrossing\Controller\GetPublicationHouseController
+  methods: GET
