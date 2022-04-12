@@ -27,7 +27,7 @@ class GetPublicationHouseController extends AbstractController
 
     public function __invoke(Request $serverRequest):Response
     {
-        $this->logger->info("Ветка Домов публикации");
+        $this->logger->info("Ветка Издательств");
         $params = array_merge(
             $serverRequest->query->all(),
             $serverRequest->attributes->all()
