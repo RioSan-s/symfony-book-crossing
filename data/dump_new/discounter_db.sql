@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped from database version 14.2
+-- Dumped by pg_dump version 14.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,17 +16,17 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE IF EXISTS "discounterж";
+DROP DATABASE IF EXISTS discounter;
 --
--- Name: discounterж; Type: DATABASE; Schema: -; Owner: postgres
+-- Name: discounter; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE "discounterж" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'ru_RU.UTF-8' LC_CTYPE = 'ru_RU.UTF-8';
+CREATE DATABASE discounter WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'Russian_Russia.1251';
 
 
-ALTER DATABASE "discounterж" OWNER TO postgres;
+ALTER DATABASE discounter OWNER TO postgres;
 
-\connect -reuse-previous=on "dbname='discounterж'"
+\connect discounter
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -318,6 +318,8 @@ INSERT INTO public.currency VALUES (1, 'Рубль', 'RUB');
 
 INSERT INTO public.customers VALUES (1, 'улица нигде');
 INSERT INTO public.customers VALUES (2, 'улица Алексеевская д. 5');
+INSERT INTO public.customers VALUES (6, 'улица Гордеевская, д. 8');
+INSERT INTO public.customers VALUES (7, 'улица Альпачино, д. 12');
 
 
 --
@@ -345,6 +347,8 @@ INSERT INTO public.prices VALUES (1, 5, 3000, 1);
 INSERT INTO public.prices VALUES (2, 5, 6000, 1);
 INSERT INTO public.prices VALUES (3, 6, 23000, 1);
 INSERT INTO public.prices VALUES (4, 7, 2500, 1);
+INSERT INTO public.prices VALUES (5, 8, 500, 1);
+INSERT INTO public.prices VALUES (6, 9, 320, 1);
 
 
 --
@@ -354,6 +358,8 @@ INSERT INTO public.prices VALUES (4, 7, 2500, 1);
 INSERT INTO public.product VALUES (5, 'Мышка Razer');
 INSERT INTO public.product VALUES (6, 'Пылесос Sos3');
 INSERT INTO public.product VALUES (7, 'Электронная сигарета 4en');
+INSERT INTO public.product VALUES (8, 'Мышка "Беларусь"');
+INSERT INTO public.product VALUES (9, 'Коврик для мыши "Советский"');
 
 
 --
@@ -363,6 +369,7 @@ INSERT INTO public.product VALUES (7, 'Электронная сигарета 4
 INSERT INTO public.providers VALUES (1, 'АкваТроник', 'Калининград');
 INSERT INTO public.providers VALUES (2, 'Хьюберт ', 'Нижний Новгород');
 INSERT INTO public.providers VALUES (3, 'Мираж', 'Орел');
+INSERT INTO public.providers VALUES (4, 'Фортран', 'Москва');
 
 
 --
@@ -373,6 +380,8 @@ INSERT INTO public.providers_to_orders VALUES (1, 5);
 INSERT INTO public.providers_to_orders VALUES (2, 6);
 INSERT INTO public.providers_to_orders VALUES (3, 7);
 INSERT INTO public.providers_to_orders VALUES (1, 6);
+INSERT INTO public.providers_to_orders VALUES (4, 8);
+INSERT INTO public.providers_to_orders VALUES (4, 9);
 
 
 --
@@ -391,6 +400,8 @@ INSERT INTO public.users VALUES (1, 'Павел', 'Техник', 'paveltech@mai
 INSERT INTO public.users VALUES (2, 'Наташа', 'Иванова', 'natashaivanova12@gmail.ru', 'customer');
 INSERT INTO public.users VALUES (4, 'Персона', 'Неизвестная', 'panteleimon@yandex.ru', 'seller');
 INSERT INTO public.users VALUES (5, 'Фабрика', 'Паттерн', 'strangerthings@gmail.com', 'seller');
+INSERT INTO public.users VALUES (7, 'Иван ', 'Иванович', 'ivanivanovich@ya.ru', 'customer');
+INSERT INTO public.users VALUES (6, 'Сергей', 'Попенко', 'popenkosd@mail.ru', 'customer');
 
 
 --
@@ -425,28 +436,28 @@ SELECT pg_catalog.setval('public.position_order_id_seq', 3, true);
 -- Name: prices_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.prices_id_seq', 4, true);
+SELECT pg_catalog.setval('public.prices_id_seq', 6, true);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.product_id_seq', 7, true);
+SELECT pg_catalog.setval('public.product_id_seq', 9, true);
 
 
 --
 -- Name: providers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.providers_id_seq', 3, true);
+SELECT pg_catalog.setval('public.providers_id_seq', 4, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 5, true);
+SELECT pg_catalog.setval('public.users_id_seq', 7, true);
 
 
 --
