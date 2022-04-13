@@ -854,7 +854,7 @@ CREATE UNIQUE INDEX participants_email_unq ON public.participants USING btree (e
 -- Name: points_address_unq; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX points_address_unq ON public.points USING btree (address);
+CREATE UNIQUE INDEX points_address_unq ON public.points USING btree (address_id);
 
 
 --

@@ -4,7 +4,6 @@ namespace NonEfTech\BookCrossing\Repository;
 
 use NonEfTech\BookCrossing\Entity\Participant;
 use NonEfTech\BookCrossing\Entity\ParticipantRepositoryInterface;
-use NonEfTech\BookCrossing\Repository\AdministratorRepository\AdministratorDataProvider;
 
 class ParticipantDoctrineRepository extends \Doctrine\ORM\EntityRepository implements
     ParticipantRepositoryInterface

@@ -12,19 +12,25 @@ use NonEfTech\BookCrossing\Entity\BookRepositoryInterface;
 class BookDoctrineRepository extends EntityRepository implements BookRepositoryInterface
 {
 
+    private const REPLACED_CRITERIA = [
+        'address' => 'concat ( "p.address.country"," ", "p.address.city"," " "p.address.street"," " "p.address.home"," " "p.address
+.flat")',
+    ];
 
     /**
      * @inheritDoc
      */
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
-        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $queryBuilder->select(['b','p'])
+        $queryBuilder = $this->getEntityManager()
+            ->createQueryBuilder();
+        $queryBuilder->select(['b', 'p'])
             ->from(Book::class, 'b')
             ->leftJoin('b.point', 'p');
         $this->buildWhere($queryBuilder, $criteria);
 
-        return $queryBuilder->orderBy('b.id')->getQuery()
+        return $queryBuilder->orderBy('b.id')
+            ->getQuery()
             ->getResult();
     }
 
@@ -32,7 +38,7 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
      * Формируем условия поиска в запосе, на основе критериев
      *
      * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param array $criteria
+     * @param array                      $criteria
      *
      * @return void
      */
@@ -44,12 +50,22 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
         $whereExprAnd = $queryBuilder->expr()
             ->andX();
         foreach ($criteria as $criteriaName => $criteriaValue) {
+
             if (0 === strpos($criteriaName, 'point_')) {
+                if($criteriaName==='address')
+                {
+                    $whereExprAnd->add(
+                        $queryBuilder->expr()
+                            ->eq('concat ( "p.address.country"," ", "p.address.city"," " "p.address.street"," " "p.address.home"," " "p.address
+.flat")', ":$criteriaName")
+                    );
+                }
                 $criteriaName = substr($criteriaName, 6);
-                $whereExprAnd->add(
-                    $queryBuilder->expr()
-                        ->eq("p.$criteriaName", ":$criteriaName")
-                );
+
+                    $whereExprAnd->add(
+                        $queryBuilder->expr()
+                            ->eq("p.$criteriaName", ":$criteriaName")
+                    );
 
             } else {
                 $whereExprAnd->add(
@@ -59,6 +75,8 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
             }
         }
         $queryBuilder->where($whereExprAnd);
-        $queryBuilder->setParameter($criteriaName, $criteriaValue);
+        $queryBuilder->setParameters($criteria);
     }
+
+
 }

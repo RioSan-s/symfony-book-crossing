@@ -2,10 +2,8 @@
 
 namespace NonEfTech\BookCrossing\Service;
 
-use NonEfTech\BookCrossing\Entity\PointRepositoryInterface;
 use NonEfTech\BookCrossing\Entity\PublicationHouse;
 use NonEfTech\BookCrossing\Entity\PublicationHouseInterface;
-use NonEfTech\BookCrossing\Service\SearchPointsService\SearchPointsCriteria;
 use NonEfTech\BookCrossing\Service\SearchPublicationHouseService\PublicationHouseDto;
 use NonEfTech\BookCrossing\Service\SearchPublicationHouseService\SearchPublicationHouseCriteria;
 use Psr\Log\LoggerInterface;

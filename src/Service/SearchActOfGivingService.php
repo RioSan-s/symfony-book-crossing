@@ -101,7 +101,7 @@ class SearchActOfGivingService
         $pointsDto = new PointsDto(
             $point->getId(),
             $point->getPhoneNumber(),
-            $point->getAddress(),
+            "{$point->getAddress()->getCountry()}, г. {$point->getAddress()->getCity()}, {$point->getAddress()->getStreet()} ул., д. {$point->getAddress()->getHome()} кв.{$point->getAddress()->getFlat()}",
             $point->getStartTime()->format('H:i'),
             $point->getEndTime()->format('H:i')
         );

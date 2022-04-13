@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use NonEfTech\BookCrossing\Exception\InvalidDataStructureException;
+
 
 /**
  * Участник обмена
@@ -34,12 +34,12 @@ class Participant extends AbstractUsers
 
 
     /**
-     * @param int $id
-     * @param string $fio
-     * @param string $phoneNumber
+     * @param int               $id
+     * @param string            $fio
+     * @param string            $phoneNumber
      * @param DateTimeImmutable $dateOfBirth
-     * @param string $email
-     * @param AbstractAct|Collection $acts
+     * @param string            $email
+     * @param array             $acts
      */
     public function __construct(
         int $id,

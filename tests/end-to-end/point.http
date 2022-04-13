@@ -65,7 +65,7 @@ client.assert(response.body[0]["endTime"] === "18:00", "некорректное
  %}
 
 ### Тестирование поиска пункта обмена по адресу
-GET http://localhost:8086/points?address=Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200
+GET http://localhost:8086/points?address=Россия, Уссурийск, Зеленая, 13, 200
 
 > {%
 client.test("Тестирование поиска пункта обмена по адресу", function (){

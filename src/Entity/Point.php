@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use NonEfTech\BookCrossing\Exception\InvalidDataStructureException;
+use NonEfTech\BookCrossing\ValueObject\Addresses;
 
 /**
  * Пункт обмена
@@ -44,10 +45,11 @@ class Point
 
     /**
      * Адрес пункта обмена
-     * @ORM\Column(name="address", type="string", nullable = false, length=250)
-     * @var string
+     * @ORM\Embedded(class=\NonEfTech\BookCrossing\ValueObject\Addresses::class, columnPrefix=false)
+     *
+     * @var Addresses
      */
-    private string $address;
+    private Addresses $address;
 
     /**
      * Время начала работы пункта обмена
@@ -88,7 +90,7 @@ class Point
     public function __construct(
         int $id,
         string $phoneNumber,
-        string $address,
+        Addresses $address,
         DateTimeImmutable $startTime,
         DateTimeImmutable $endTime,
         array $book = []
@@ -127,7 +129,7 @@ class Point
      *
      * @return string
      */
-    public function getAddress(): string
+    public function getAddress(): Addresses
     {
         return $this->address;
     }
