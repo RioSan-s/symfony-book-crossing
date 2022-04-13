@@ -125,44 +125,6 @@ class Book
         return $this->acts->toArray();
     }
 
-    /**
-     * Создает сущность "Книга" из массива
-     *
-     * @param array $data
-     *
-     * @return Book
-     */
-    public static function createFromArray(array $data): Book
-    {
-        $requiredFields = [
-            'id',
-            'title',
-            'author',
-            'publishingHouse',
-            'yearOfPublication',
-            'purchasePrices',
-            'point',
-
-
-        ];
-        $missingFields = array_diff($requiredFields, array_keys($data));
-
-        if (count($missingFields) > 0) {
-            $errMsg = sprintf("Отсутствуют обязательные элементы: %s", implode(',', $missingFields));
-            throw new InvalidDataStructureException($errMsg);
-        }
-
-
-        return new Book(
-            $data['id'],
-            $data['title'],
-            $data['author'],
-            $data['publishingHouse'],
-            $data['yearOfPublication'],
-            $data['purchasePrices'],
-            $data['point']
-        );
-    }
 
     /**
      * @return PurchasePrice[]

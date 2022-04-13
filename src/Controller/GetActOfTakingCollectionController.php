@@ -37,7 +37,6 @@ class GetActOfTakingCollectionController extends AbstractController
     private ValidatorInterface $validator;
 
 
-
     /**
      * @param LoggerInterface $logger
      * @param SearchActOfTakingService $searchActOfTakingService
@@ -96,11 +95,11 @@ class GetActOfTakingCollectionController extends AbstractController
                         ??
                         null
                     )
-                    ->setPointAddress(
-                        $params['book_point_address']
-                        ??
-                        null
-                    )
+                    ->setPointCountry($params['book_point_country'] ?? null)
+                    ->setPointCity($params['book_point_city'] ?? null)
+                    ->setPointStreet($params['book_point_street'] ?? null)
+                    ->setPointHome($params['book_point_home'] ?? null)
+                    ->setPointFlat(isset($params['book_point_flat']) ? (int)$params['book_point_flat'] : null)
                     ->setPointStartTime(
                         $params['book_point_startTime']
                         ??
@@ -149,7 +148,7 @@ class GetActOfTakingCollectionController extends AbstractController
         }
 
 
-        return $this->json( $result, $httpCode);
+        return $this->json($result, $httpCode);
     }
 
     /**
@@ -163,31 +162,31 @@ class GetActOfTakingCollectionController extends AbstractController
     private function validateQueryParams(Request $serverRequest): ?string
     {
         $params = array_merge($serverRequest->query->all(), $serverRequest->attributes->all());
-        $constraint=
+        $constraint =
             new Assert\Collection(
                 [
-                    'allowExtraFields'   => true,
+                    'allowExtraFields' => true,
                     'allowMissingFields' => false,
-                    'fields'             => [
-                        'id'  =>
+                    'fields' => [
+                        'id' =>
                             new Assert\Optional(
                                 [
                                     new Assert\Type(['type' => 'string', 'message' => 'Incorrect id']),
                                 ]
                             ),
-                        'count'       =>
+                        'count' =>
                             new Assert\Optional(
                                 [
                                     new Assert\Type(['type' => 'string', 'message' => 'Incorrect count']),
                                 ]
                             ),
-                        'book_id'     =>
+                        'book_id' =>
                             new Assert\Optional(
                                 [
                                     new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_id']),
                                 ]
                             ),
-                        'book_title'  =>
+                        'book_title' =>
                             new Assert\Optional(
                                 [
                                     new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_title']),
@@ -202,13 +201,16 @@ class GetActOfTakingCollectionController extends AbstractController
                         'book_publishingHouse' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_publishingHouse']),
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_publishingHouse']
+                                    ),
                                 ]
                             ),
                         'book_yearOfPublication' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_yearOfPublication']),
+                                    new Assert\Type(
+                                        ['type' => 'string', 'message' => 'Incorrect book_yearOfPublication']
+                                    ),
                                 ]
                             ),
                         'book_point_id' =>
@@ -220,7 +222,9 @@ class GetActOfTakingCollectionController extends AbstractController
                         'book_point_phoneNumber' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_phoneNumber']),
+                                    new Assert\Type(
+                                        ['type' => 'string', 'message' => 'Incorrect book_point_phoneNumber']
+                                    ),
                                 ]
                             ),
                         'book_point_address' =>
@@ -232,7 +236,8 @@ class GetActOfTakingCollectionController extends AbstractController
                         'book_point_startTime' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_startTime']),
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_point_startTime']
+                                    ),
                                 ]
                             ),
                         'book_point_endTime' =>
@@ -250,19 +255,23 @@ class GetActOfTakingCollectionController extends AbstractController
                         'participant_fio' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' =>'Incorrect participant_fio']),
+                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_fio']),
                                 ]
                             ),
                         'participant_phoneNumber' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_phoneNumber']),
+                                    new Assert\Type(
+                                        ['type' => 'string', 'message' => 'Incorrect participant_phoneNumber']
+                                    ),
                                 ]
                             ),
                         'participant_dateOfBirth' =>
                             new Assert\Optional(
                                 [
-                                    new Assert\Type(['type' => 'string', 'message' => 'Incorrect participant_dateOfBirth']),
+                                    new Assert\Type(
+                                        ['type' => 'string', 'message' => 'Incorrect participant_dateOfBirth']
+                                    ),
                                 ]
                             ),
                         'participant_email' =>
@@ -276,14 +285,14 @@ class GetActOfTakingCollectionController extends AbstractController
             );
 
         $errors = $this->validator->validate($params, $constraint);
-        $errStrCollection = array_map(static function ($v) {
-            return $v->getMessage();
-        },
+        $errStrCollection = array_map(
+            static function ($v) {
+                return $v->getMessage();
+            },
             $errors->getIterator()
                 ->getArrayCopy()
         );
         return count($errStrCollection) > 0 ? implode(',', $errStrCollection) : null;
-
     }
 
     protected function buildResult(array $foundActOfTakings): array
@@ -310,7 +319,7 @@ class GetActOfTakingCollectionController extends AbstractController
         $jsonData['book']['point'] = [
             'id' => $pointsDto->getId(),
             'phoneNumber' => $pointsDto->getPhoneNumber(),
-            'address' => $pointsDto->getAddress(),
+            'address' => "{$pointsDto->getCountry()}, г. {$pointsDto->getCity()}, {$pointsDto->getStreet()} ул., д. {$pointsDto->getHome()} кв.{$pointsDto->getFlat()}",
             'startTime' => $pointsDto->getStartTime(),
             'endTime' => $pointsDto->getEndTime(),
 

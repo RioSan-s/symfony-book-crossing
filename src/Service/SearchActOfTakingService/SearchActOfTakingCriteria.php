@@ -61,11 +61,130 @@ class SearchActOfTakingCriteria
     private ?string $pointPhoneNumber = null;
 
     /**
-     * Адрес пункта обмена
+     * Страна пункта обмена
      *
      * @var string|null
      */
-    private ?string $pointAddress = null;
+    private ?string $pointCountry = null;
+
+
+    /**
+     * Город пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $pointCity = null;
+
+    /**
+     * Страна пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $pointStreet = null;
+
+    /**
+     * Номер дома пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $pointHome = null;
+
+    /**
+     * Квартира пункта обмена
+     *
+     * @var int|null
+     */
+    private ?int $pointFlat = null;
+
+    /**
+     * @return string|null
+     */
+    public function getPointCountry(): ?string
+    {
+        return $this->pointCountry;
+    }
+
+    /**
+     * @param string|null $pointCountry
+     * @return SearchActOfTakingCriteria
+     */
+    public function setPointCountry(?string $pointCountry): SearchActOfTakingCriteria
+    {
+        $this->pointCountry = $pointCountry;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPointCity(): ?string
+    {
+        return $this->pointCity;
+    }
+
+    /**
+     * @param string|null $pointCity
+     * @return SearchActOfTakingCriteria
+     */
+    public function setPointCity(?string $pointCity): SearchActOfTakingCriteria
+    {
+        $this->pointCity = $pointCity;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPointStreet(): ?string
+    {
+        return $this->pointStreet;
+    }
+
+    /**
+     * @param string|null $pointStreet
+     * @return SearchActOfTakingCriteria
+     */
+    public function setPointStreet(?string $pointStreet): SearchActOfTakingCriteria
+    {
+        $this->pointStreet = $pointStreet;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPointHome(): ?string
+    {
+        return $this->pointHome;
+    }
+
+    /**
+     * @param string|null $pointHome
+     * @return SearchActOfTakingCriteria
+     */
+    public function setPointHome(?string $pointHome): SearchActOfTakingCriteria
+    {
+        $this->pointHome = $pointHome;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPointFlat(): ?int
+    {
+        return $this->pointFlat;
+    }
+
+    /**
+     * @param int|null $pointFlat
+     * @return SearchActOfTakingCriteria
+     */
+    public function setPointFlat(?int $pointFlat): SearchActOfTakingCriteria
+    {
+        $this->pointFlat = $pointFlat;
+        return $this;
+    }
 
     /**
      * Время начала работы пункта обмена

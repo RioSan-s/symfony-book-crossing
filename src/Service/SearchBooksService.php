@@ -28,14 +28,13 @@ final class SearchBooksService
     private BookRepositoryInterface $bookRepository;
 
     /**
-     * @param LoggerInterface         $logger
+     * @param LoggerInterface $logger
      * @param BookRepositoryInterface $bookRepository
      */
     public function __construct(
         LoggerInterface $logger,
         BookRepositoryInterface $bookRepository
-    )
-    {
+    ) {
         $this->logger = $logger;
 
         $this->bookRepository = $bookRepository;
@@ -66,16 +65,20 @@ final class SearchBooksService
     private function searchCriteriaToArray(SearchBooksCriteria $searchCriteria): array
     {
         $criteriaForRepository = [
-            'id'                => $searchCriteria->getId(),
-            'title'             => $searchCriteria->getTitle(),
-            'author'            => $searchCriteria->getAuthor(),
-            'publishingHouse'   => $searchCriteria->getPublishingHouse(),
+            'id' => $searchCriteria->getId(),
+            'title' => $searchCriteria->getTitle(),
+            'author' => $searchCriteria->getAuthor(),
+            'publishingHouse' => $searchCriteria->getPublishingHouse(),
             'yearOfPublication' => $searchCriteria->getYearOfPublication(),
-            'point_id'          => $searchCriteria->getPointId(),
-            'point_phoneNumber'       => $searchCriteria->getPhoneNumber(),
-            'point_address'           => $searchCriteria->getAddress(),
-            'point_startTime'         => $searchCriteria->getStartTime(),
-            'point_endTime'           => $searchCriteria->getEndTime(),
+            'point_id' => $searchCriteria->getPointId(),
+            'point_phoneNumber' => $searchCriteria->getPhoneNumber(),
+            'point_country' => $searchCriteria->getPointCountry(),
+            'point_city' => $searchCriteria->getPointCity(),
+            'point_street' => $searchCriteria->getPointStreet(),
+            'point_home' => $searchCriteria->getPointHome(),
+            'point_flat' => $searchCriteria->getPointFlat(),
+            'point_startTime' => $searchCriteria->getStartTime(),
+            'point_endTime' => $searchCriteria->getEndTime(),
 
         ];
         return array_filter($criteriaForRepository, static function ($v): bool {
@@ -96,7 +99,11 @@ final class SearchBooksService
         $pointsDto = new PointsDto(
             $point->getId(),
             $point->getPhoneNumber(),
-            "{$point->getAddress()->getCountry()}, г. {$point->getAddress()->getCity()}, {$point->getAddress()->getStreet()} ул., д. {$point->getAddress()->getHome()} кв.{$point->getAddress()->getFlat()}",
+            $point->getAddress()->getCountry(),
+            $point->getAddress()->getCity(),
+            $point->getAddress()->getStreet(),
+            $point->getAddress()->getHome(),
+            $point->getAddress()->getFlat(),
             $point->getStartTime()->format('H:i'),
             $point->getEndTime()->format('H:i')
         );

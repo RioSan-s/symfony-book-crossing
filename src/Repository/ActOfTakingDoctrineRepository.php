@@ -9,6 +9,17 @@ use NonEfTech\BookCrossing\Entity\ActOfTaking;
 class ActOfTakingDoctrineRepository extends EntityRepository implements
     \NonEfTech\BookCrossing\Entity\ActOfTakingRepositoryInterface
 {
+
+    private const REPLACED_CRITERIA = [
+        'country' => 'address.country',
+        'city' => 'address.city',
+        'street' => 'address.street',
+        'home' => 'address.home',
+        'flat' => 'address.flat',
+
+    ];
+
+
     /**
      * @inheritDoc
      */
@@ -49,10 +60,10 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
                         ->eq("b.$criteriaName", ":$criteriaName")
                 );
             } elseif (0 === strpos($criteriaName, 'point_')) {
-                $criteriaName = substr($criteriaName, 6);
+                $preparedCriteria = $this->preparedAddressCriteria($criteriaName);
                 $whereExprAnd->add(
                     $queryBuilder->expr()
-                        ->eq("p.$criteriaName", ":$criteriaName")
+                        ->eq("p.$preparedCriteria", ":$criteriaName")
                 );
             } elseif (0 === strpos($criteriaName, 'participant_')) {
                 $criteriaName = substr($criteriaName, 12);
@@ -69,6 +80,26 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
         }
         $queryBuilder->where($whereExprAnd);
         $queryBuilder->setParameter($criteriaName, $criteriaValue);
+    }
+
+
+    /**
+     * Подготовка критереев для адрессов пункта обмена
+     * @param string $key
+     * @return string
+     */
+    private function preparedAddressCriteria(string $key): string
+    {
+        $propertyName = substr($key, 6);
+
+
+        if (array_key_exists($propertyName, self::REPLACED_CRITERIA)) {
+            $preparedCriteriaName = self::REPLACED_CRITERIA[$propertyName];
+        } else {
+            $preparedCriteriaName = $propertyName;
+        }
+
+        return $preparedCriteriaName;
     }
 
 

@@ -90,7 +90,11 @@ class GetBooksCollectionController extends AbstractController
                         ??
                         null
                     )
-                    ->setPointAddress($params['point_address'] ?? null)
+                    ->setPointCountry($params['point_country'] ?? null)
+                    ->setPointCity($params['point_city'] ?? null)
+                    ->setPointStreet($params['point_street'] ?? null)
+                    ->setPointHome($params['point_home'] ?? null)
+                    ->setPointFlat(isset($params['point_flat']) ? (int)$params['point_flat'] : null)
                     ->setPointStartTime($params['point_startTime'] ?? null)
                     ->setPointEndTime($params['point_endTime'] ?? null)
             );
@@ -260,7 +264,7 @@ class GetBooksCollectionController extends AbstractController
         $jsonData['point'] = [
             'id' => $pointsDto->getId(),
             'phoneNumber' => $pointsDto->getPhoneNumber(),
-            'address' => $pointsDto->getAddress(),
+            'address' => "{$pointsDto->getCountry()}, г. {$pointsDto->getCity()}, {$pointsDto->getStreet()} ул., д. {$pointsDto->getHome()} кв.{$pointsDto->getFlat()}",
             'startTime' => $pointsDto->getStartTime(),
             'endTime' => $pointsDto->getEndTime(),
 

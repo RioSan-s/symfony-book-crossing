@@ -82,10 +82,10 @@ class Point
     /**
      * @param int $id - id пункта обмена
      * @param string $phoneNumber - номер телефона пункта обмена
-     * @param string $address - адрес пункта обмена
+     * @param Addresses $address - адрес пункта обмена
      * @param DateTimeImmutable $startTime - время начала работы пункта обмена
      * @param DateTimeImmutable $endTime - время окончания работы пункта обмена
-     * @param Collection|Point $book
+     * @param array $book
      */
     public function __construct(
         int $id,

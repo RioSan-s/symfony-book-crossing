@@ -53,12 +53,42 @@ class SearchBooksCriteria
      */
     private ?string $pointPhoneNumber = null;
 
+
     /**
-     * Адрес пункта обмена
+     * Страна пункта обмена
      *
      * @var string|null
      */
-    private ?string $pointAddress = null;
+    private ?string $pointCountry = null;
+
+
+    /**
+     * Город пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $pointCity = null;
+
+    /**
+     * Страна пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $pointStreet = null;
+
+    /**
+     * Номер дома пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $pointHome = null;
+
+    /**
+     * Квартира пункта обмена
+     *
+     * @var int|null
+     */
+    private ?int $pointFlat = null;
 
     /**
      * Время начала работы пункта обмена
@@ -210,21 +240,88 @@ class SearchBooksCriteria
     /**
      * @return string|null
      */
-    public function getAddress(): ?string
+    public function getPointCountry(): ?string
     {
-        return $this->pointAddress;
+        return $this->pointCountry;
     }
 
     /**
-     * @param string|null $pointAddress
-     *
-     * @return SearchBooksCriteria
+     * @param string|null $pointCountry
      */
-    public function setPointAddress(?string $pointAddress): SearchBooksCriteria
+    public function setPointCountry(?string $pointCountry): SearchBooksCriteria
     {
-        $this->pointAddress = $pointAddress;
+        $this->pointCountry = $pointCountry;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getPointCity(): ?string
+    {
+        return $this->pointCity;
+    }
+
+    /**
+     * @param string|null $pointCity
+     */
+    public function setPointCity(?string $pointCity): SearchBooksCriteria
+    {
+        $this->pointCity = $pointCity;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPointStreet(): ?string
+    {
+        return $this->pointStreet;
+    }
+
+    /**
+     * @param string|null $pointStreet
+     */
+    public function setPointStreet(?string $pointStreet): SearchBooksCriteria
+    {
+        $this->pointStreet = $pointStreet;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPointHome(): ?string
+    {
+        return $this->pointHome;
+    }
+
+    /**
+     * @param string|null $pointHome
+     */
+    public function setPointHome(?string $pointHome): SearchBooksCriteria
+    {
+        $this->pointHome = $pointHome;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPointFlat(): ?int
+    {
+        return $this->pointFlat;
+    }
+
+    /**
+     * @param int|null $pointFlat
+     */
+    public function setPointFlat(?int $pointFlat): SearchBooksCriteria
+    {
+        $this->pointFlat = $pointFlat;
+        return $this;
+    }
+
 
     /**
      * @return string|null

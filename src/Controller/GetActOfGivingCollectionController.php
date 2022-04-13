@@ -94,11 +94,11 @@ class GetActOfGivingCollectionController extends AbstractController
                         ??
                         null
                     )
-                    ->setPointAddress(
-                        $params['book_point_address']
-                        ??
-                        null
-                    )
+                    ->setPointCountry($params['book_point_country'] ?? null)
+                    ->setPointCity($params['book_point_city'] ?? null)
+                    ->setPointStreet($params['book_point_street'] ?? null)
+                    ->setPointHome($params['book_point_home'] ?? null)
+                    ->setPointFlat(isset($params['book_point_flat']) ? (int)$params['book_point_flat'] : null)
                     ->setPointStartTime(
                         $params['book_point_startTime']
                         ??
@@ -315,7 +315,7 @@ class GetActOfGivingCollectionController extends AbstractController
         $jsonData['book']['point'] = [
             'id' => $pointsDto->getId(),
             'phoneNumber' => $pointsDto->getPhoneNumber(),
-            'address' => $pointsDto->getAddress(),
+            'address' => "{$pointsDto->getCountry()}, г. {$pointsDto->getCity()}, {$pointsDto->getStreet()} ул., д. {$pointsDto->getHome()} кв.{$pointsDto->getFlat()}",
             'startTime' => $pointsDto->getStartTime(),
             'endTime' => $pointsDto->getEndTime(),
 
