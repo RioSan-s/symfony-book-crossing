@@ -39,6 +39,24 @@ INSERT INTO public.books VALUES (5, 'Старик и море', 'Эрнест Х
 
 
 --
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.users VALUES (1, 'Хигир Ирина Кузьминовна', '+7 (983) 604-51-60', '1973-04-15', 'participant');
+INSERT INTO public.users VALUES (2, 'Курневича Елизавета Ефимовна', '+7 (953) 499-40-73', '1967-03-03', 'participant');
+INSERT INTO public.users VALUES (3, 'Ясинская Марианна Климентьевна', '+7 (968) 528-41-17', '1984-12-10', 'participant');
+INSERT INTO public.users VALUES (4, 'Булыгина Маргарита Никаноровна', '+7 (961) 179-12-24', '1990-06-25', 'participant');
+INSERT INTO public.users VALUES (5, 'Лысова Антонина Егоровна', '+7 (929) 698-21-43', '1998-12-25', 'participant');
+INSERT INTO public.users VALUES (6, 'Стрельцов Константин Юринович', '+7 (966) 211-77-49', '1983-03-02', 'participant');
+INSERT INTO public.users VALUES (7, 'Бесфамильнов Максим Адамович', '+7 (963) 868-93-56', '1983-05-03', 'participant');
+INSERT INTO public.users VALUES (8, 'Другаков Николай Егорович', '+7 (963) 974-86-15', '1972-05-24', 'admin');
+INSERT INTO public.users VALUES (9, 'Вельдина Катерина Захаровна', '+7 (967) 674-75-89', '1978-09-03', 'admin');
+INSERT INTO public.users VALUES (10, 'Болтунова Василиса', '+7 (919) 961-24-65', '1974-04-22', 'admin');
+INSERT INTO public.users VALUES (11, 'Ковалевская Сюзанна Сергеевна', '+7 (974) 381-61-51', '1980-09-02', 'admin');
+INSERT INTO public.users VALUES (12, 'Русских Виталий Гаврннлович', '+7 (997) 958-51-62', '1989-09-05', 'admin');
+
+
+--
 -- Data for Name: participants; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -98,28 +116,14 @@ INSERT INTO public.act_of_taking VALUES (80, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (81, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (96, 1, 4, 3);
 INSERT INTO public.act_of_taking VALUES (97, 4, 2, 1);
+INSERT INTO public.act_of_taking VALUES (98, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (99, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (100, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (101, 1, 1, 1);
 INSERT INTO public.act_of_taking VALUES (6, 4, 1, 7);
 INSERT INTO public.act_of_taking VALUES (7, 3, 1, 5);
 INSERT INTO public.act_of_taking VALUES (8, 1, 1, 1);
 INSERT INTO public.act_of_taking VALUES (29, 1, 4, 1);
-
-
---
--- Data for Name: acts; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.acts VALUES (1, 1, 1, 1);
-INSERT INTO public.acts VALUES (2, 2, 1, 4);
-INSERT INTO public.acts VALUES (3, 3, 1, 2);
-INSERT INTO public.acts VALUES (4, 4, 1, 3);
-INSERT INTO public.acts VALUES (5, 5, 1, 5);
-INSERT INTO public.acts VALUES (6, 4, 1, 7);
-INSERT INTO public.acts VALUES (7, 3, 1, 5);
-INSERT INTO public.acts VALUES (8, 1, 1, 1);
-INSERT INTO public.acts VALUES (43, 5, 1, 5);
-INSERT INTO public.acts VALUES (40, 5, 1, 5);
-INSERT INTO public.acts VALUES (41, 5, 1, 5);
-INSERT INTO public.acts VALUES (44, 5, 1, 5);
 
 
 --
@@ -159,35 +163,10 @@ INSERT INTO public.purchase_prices VALUES (5, '2021-10-31 00:00:00', 73200, 1, 2
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.users VALUES (1, 'Хигир Ирина Кузьминовна', '+7 (983) 604-51-60', '1973-04-15', 'participant');
-INSERT INTO public.users VALUES (2, 'Курневича Елизавета Ефимовна', '+7 (953) 499-40-73', '1967-03-03', 'participant');
-INSERT INTO public.users VALUES (3, 'Ясинская Марианна Климентьевна', '+7 (968) 528-41-17', '1984-12-10', 'participant');
-INSERT INTO public.users VALUES (4, 'Булыгина Маргарита Никаноровна', '+7 (961) 179-12-24', '1990-06-25', 'participant');
-INSERT INTO public.users VALUES (5, 'Лысова Антонина Егоровна', '+7 (929) 698-21-43', '1998-12-25', 'participant');
-INSERT INTO public.users VALUES (6, 'Стрельцов Константин Юринович', '+7 (966) 211-77-49', '1983-03-02', 'participant');
-INSERT INTO public.users VALUES (7, 'Бесфамильнов Максим Адамович', '+7 (963) 868-93-56', '1983-05-03', 'participant');
-INSERT INTO public.users VALUES (8, 'Другаков Николай Егорович', '+7 (963) 974-86-15', '1972-05-24', 'admin');
-INSERT INTO public.users VALUES (9, 'Вельдина Катерина Захаровна', '+7 (967) 674-75-89', '1978-09-03', 'admin');
-INSERT INTO public.users VALUES (10, 'Болтунова Василиса', '+7 (919) 961-24-65', '1974-04-22', 'admin');
-INSERT INTO public.users VALUES (11, 'Ковалевская Сюзанна Сергеевна', '+7 (974) 381-61-51', '1980-09-02', 'admin');
-INSERT INTO public.users VALUES (12, 'Русских Виталий Гаврннлович', '+7 (997) 958-51-62', '1989-09-05', 'admin');
-
-
---
 -- Name: act_of_taking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.act_of_taking_id_seq', 97, true);
-
-
---
--- Name: acts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.acts_id_seq', 44, true);
+SELECT pg_catalog.setval('public.act_of_taking_id_seq', 101, true);
 
 
 --
