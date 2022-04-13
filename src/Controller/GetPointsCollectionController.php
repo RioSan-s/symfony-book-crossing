@@ -79,7 +79,11 @@ class GetPointsCollectionController extends AbstractController
                 (new SearchPointsCriteria())
                     ->setId(isset($params['id']) ? (int)$params['id'] : null)
                     ->setPhoneNumber($params['phoneNumber'] ?? null)
-                    ->setAddress($params['address'] ?? null)
+                    ->setCountry($params['country'] ?? null)
+                    ->setCity($params['city'] ?? null)
+                    ->setStreet($params['street'] ?? null)
+                    ->setHome($params['home'] ?? null)
+                    ->setFlat(isset($params['flat']) ? (int)$params['flat'] : null)
                     ->setStartTime($params['startTime'] ?? null)
                     ->setEndTime($params['endTime'] ?? null)
             );
@@ -118,7 +122,31 @@ class GetPointsCollectionController extends AbstractController
                                     new Assert\Type(['type' => 'string', 'message' => 'Неверный тип данных номера телефона пункта обмена']),
                                 ]
                             ),
-                        'address'=>
+                        'country'=>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Неверный тип данных адреса пункта обмена']),
+                                ]
+                            ),
+                        'city'=>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Неверный тип данных адреса пункта обмена']),
+                                ]
+                            ),
+                        'street'=>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Неверный тип данных адреса пункта обмена']),
+                                ]
+                            ),
+                        'home'=>
+                            new Assert\Optional(
+                                [
+                                    new Assert\Type(['type' => 'string', 'message' => 'Неверный тип данных адреса пункта обмена']),
+                                ]
+                            ),
+                        'flat'=>
                             new Assert\Optional(
                                 [
                                     new Assert\Type(['type' => 'string', 'message' => 'Неверный тип данных адреса пункта обмена']),
@@ -166,7 +194,7 @@ class GetPointsCollectionController extends AbstractController
         return [
             'id' => $pointsDto->getId(),
             'phoneNumber' => $pointsDto->getPhoneNumber(),
-            'address' => $pointsDto->getAddress(),
+            'address' => "{$pointsDto->getCountry()}, г. {$pointsDto->getCity()}, {$pointsDto->getStreet()} ул., д. {$pointsDto->getHome()} кв.{$pointsDto->getFlat()}",
             'startTime' => $pointsDto->getStartTime(),
             'endTime' => $pointsDto->getEndTime(),
         ];

@@ -65,7 +65,12 @@ final class SearchPointsService
         $criteriaForRepository = [
             'id' => $searchCriteria->getId(),
             'phoneNumber' => $searchCriteria->getPhoneNumber(),
-            'address' => $searchCriteria->getAddress(),
+            'country' => $searchCriteria->getCountry(),
+            'city' => $searchCriteria->getCity(),
+            'street' => $searchCriteria->getStreet(),
+            'home' => $searchCriteria->getHome(),
+            'flat' => $searchCriteria->getFlat(),
+
             'startTime' => is_bool(DateTimeImmutable::createFromFormat('H:i', $searchCriteria->getStartTime()))? null :
                 DateTimeImmutable::createFromFormat('H:i', $searchCriteria->getStartTime()),
 
@@ -90,7 +95,11 @@ final class SearchPointsService
         return new PointsDto(
             $point->getId(),
             $point->getPhoneNumber(),
-            "{$point->getAddress()->getCountry()}, г. {$point->getAddress()->getCity()}, {$point->getAddress()->getStreet()} ул., д. {$point->getAddress()->getHome()} кв.{$point->getAddress()->getFlat()}",
+            $point->getAddress()->getCountry(),
+            $point->getAddress()->getCity(),
+            $point->getAddress()->getStreet(),
+            $point->getAddress()->getHome(),
+            $point->getAddress()->getFlat(),
             $point->getStartTime()->format('H:i'),
             $point->getEndTime()->format('H:i')
         );

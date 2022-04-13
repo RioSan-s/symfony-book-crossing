@@ -19,11 +19,40 @@ final class SearchPointsCriteria
     private ?string $phoneNumber = null;
 
     /**
-     * Адрес пункта обмена
+     * Страна пункта обмена
      *
      * @var string|null
      */
-    private ?string $address = null;
+    private ?string $country = null;
+
+
+    /**
+     * Город пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $city = null;
+
+    /**
+     * Страна пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $street = null;
+
+    /**
+     * Номер дома пункта обмена
+     *
+     * @var string|null
+     */
+    private ?string $home = null;
+
+    /**
+     * Квартира пункта обмена
+     *
+     * @var int|null
+     */
+    private ?int $flat = null;
 
     /**
      * Время начала работы пункта обмена
@@ -47,6 +76,91 @@ final class SearchPointsCriteria
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string|null $country
+     */
+    public function setCountry(?string $country): SearchPointsCriteria
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string|null $city
+     */
+    public function setCity(?string $city): SearchPointsCriteria
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    /**
+     * @param string|null $street
+     */
+    public function setStreet(?string $street): SearchPointsCriteria
+    {
+        $this->street = $street;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHome(): ?string
+    {
+        return $this->home;
+    }
+
+    /**
+     * @param string|null $home
+     */
+    public function setHome(?string $home): SearchPointsCriteria
+    {
+        $this->home = $home;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getFlat(): ?int
+    {
+        return $this->flat;
+    }
+
+    /**
+     * @param int|null $flat
+     */
+    public function setFlat(?int $flat): SearchPointsCriteria
+    {
+        $this->flat = $flat;
+        return $this;
     }
 
     /**
@@ -85,28 +199,9 @@ final class SearchPointsCriteria
         return $this;
     }
 
-    /**
-     * Возвращает адрес пункта обмена
-     *
-     * @return string|null
-     */
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
 
-    /**
-     *  Устанавливает адрес пункта обмена
-     *
-     * @param string|null $address
-     *
-     * @return SearchPointsCriteria
-     */
-    public function setAddress(?string $address): SearchPointsCriteria
-    {
-        $this->address = $address;
-        return $this;
-    }
+
+
 
     /**
      * Вовзращает время начала работы пункта обмена
