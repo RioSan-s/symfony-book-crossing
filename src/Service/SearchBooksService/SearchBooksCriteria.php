@@ -26,11 +26,32 @@ class SearchBooksCriteria
     private ?string $author = null;
 
     /**
-     * Издательство книги
+     * id пункта обмена
+     *
+     * @var int|null
+     */
+    private ?int $publishingHouseId = null;
+
+    /**
+     * Названия дома публикации
      *
      * @var string|null
      */
-    private ?string $publishingHouse = null;
+    private ?string $nameOfPublicationHouse =null;
+
+    /**
+     * Год создания публикации
+     *
+     * @var string|null
+     */
+    private ?string $yearOfCreation =null;
+
+    /**
+     * Владелец дома публикации
+     *
+     * @var string|null
+     */
+    private ?string $ownerOfPublicationHouse=null;
 
     /**
      * Год публикации книги
@@ -162,23 +183,82 @@ class SearchBooksCriteria
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getPublishingHouse(): ?string
+    public function getPublishingHouseId(): ?int
     {
-        return $this->publishingHouse;
+        return $this->publishingHouseId;
     }
 
     /**
-     * @param string|null $publishingHouse
+     * @param int|null $publishingHouseId
      *
      * @return SearchBooksCriteria
      */
-    public function setPublishingHouse(?string $publishingHouse): SearchBooksCriteria
+    public function setPublishingHouseId(?int $publishingHouseId): SearchBooksCriteria
     {
-        $this->publishingHouse = $publishingHouse;
+        $this->publishingHouseId = $publishingHouseId;
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getNameOfPublicationHouse(): ?string
+    {
+        return $this->nameOfPublicationHouse;
+    }
+
+    /**
+     * @param string|null $nameOfPublicationHouse
+     *
+     * @return SearchBooksCriteria
+     */
+    public function setNameOfPublicationHouse(?string $nameOfPublicationHouse): SearchBooksCriteria
+    {
+        $this->nameOfPublicationHouse = $nameOfPublicationHouse;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYearOfCreation(): ?string
+    {
+        return $this->yearOfCreation;
+    }
+
+    /**
+     * @param string|null $yearOfCreation
+     *
+     * @return SearchBooksCriteria
+     */
+    public function setYearOfCreation(?string $yearOfCreation): SearchBooksCriteria
+    {
+        $this->yearOfCreation = $yearOfCreation;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getOwnerOfPublicationHouse(): ?string
+    {
+        return $this->ownerOfPublicationHouse;
+    }
+
+    /**
+     * @param string|null $ownerOfPublicationHouse
+     *
+     * @return SearchBooksCriteria
+     */
+    public function setOwnerOfPublicationHouse(?string $ownerOfPublicationHouse): SearchBooksCriteria
+    {
+        $this->ownerOfPublicationHouse = $ownerOfPublicationHouse;
+        return $this;
+    }
+
+
 
     /**
      * @return string|null

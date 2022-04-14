@@ -1,3 +1,4 @@
+### тестирование по id издательства
 GET http://localhost:8086/publicationHouse?id=1
 
 > {%
@@ -7,24 +8,57 @@ GET http://localhost:8086/publicationHouse?id=1
 client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["nameOfPublicationHouse"] === "Эксмо", "некорректное название книги");
-client.assert(response.body[0]["yearOfCreation"] === 2005, "некорректный автор книги");
-client.assert(response.body[0]["ownerOfPublicationHouse"] === "Человек", "некорректный автор книги");
+client.assert(response.body[0]["yearOfCreation"] === 1991, "некорректный автор книги");
+client.assert(response.body[0]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный автор книги");
 });
 
  %}
 
 ### тестирование по названию издательства
-GET http://localhost:8086/publicationHouse?nameOfPublicationHouse=Эксмо
+GET http://localhost:8086/publicationHouse?nameOfPublicationHouse=АСТ
 
 > {%
- client.test("Тестирование поиска Издательства по id", function (){
+ client.test("тестирование по названию издательства", function (){
   client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
   client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
 client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
-client.assert(response.body[0]["id"] === 1, "некорректный id книги");
-client.assert(response.body[0]["nameOfPublicationHouse"] === "Эксмо", "некорректное название книги");
-client.assert(response.body[0]["yearOfCreation"] === 2005, "некорректный автор книги");
-client.assert(response.body[0]["ownerOfPublicationHouse"] === "Человек", "некорректный автор книги");
+client.assert(response.body[0]["id"] === 2, "некорректный id книги");
+client.assert(response.body[0]["nameOfPublicationHouse"] === "АСТ", "некорректное название книги");
+client.assert(response.body[0]["yearOfCreation"] === 1990, "некорректный автор книги");
+client.assert(response.body[0]["ownerOfPublicationHouse"] === "Олег Новиков", "некорректный автор книги");
+});
+
+ %}
+
+### тестирование по году создания издательства
+GET http://localhost:8086/publicationHouse?yearOfCreation=1990-01-01
+
+> {%
+ client.test("тестирование по году создания издательства", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 2, "некорректный id книги");
+client.assert(response.body[0]["nameOfPublicationHouse"] === "АСТ", "некорректное название книги");
+client.assert(response.body[0]["yearOfCreation"] === 1990, "некорректный автор книги");
+client.assert(response.body[0]["ownerOfPublicationHouse"] === "Олег Новиков", "некорректный автор книги");
+});
+
+ %}
+
+
+### тестирование по хозяину издательства
+GET http://localhost:8086/publicationHouse?ownerOfPublicationHouse=Олег Новиков
+
+> {%
+ client.test("тестирование по хозяину издательства", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 1, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 2, "некорректный id книги");
+client.assert(response.body[0]["nameOfPublicationHouse"] === "АСТ", "некорректное название книги");
+client.assert(response.body[0]["yearOfCreation"] === 1990, "некорректный автор книги");
+client.assert(response.body[0]["ownerOfPublicationHouse"] === "Олег Новиков", "некорректный автор книги");
 });
 
  %}

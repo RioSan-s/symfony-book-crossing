@@ -74,8 +74,8 @@ class GetBooksCollectionController extends AbstractController
                     )
                     ->setTitle($params['title'] ?? null)
                     ->setAuthor($params['author'] ?? null)
-                    ->setPublishingHouse(
-                        $params['publishingHouse'] ?? null
+                    ->setNameOfPublicationHouse(
+                        $params['ph_publishingHouse'] ?? null
                     )
                     ->setYearOfPublication(
                         $params['yearOfPublication']
@@ -256,7 +256,7 @@ class GetBooksCollectionController extends AbstractController
             'id' => $booksDto->getId(),
             'title' => $booksDto->getTitle(),
             'author' => $booksDto->getAuthor(),
-            'publishingHouse' => $booksDto->getPublishingHouse(),
+            'publishingHouse' => $booksDto->getPublishingHouse()->getNameOfPublicationHouse(),
             'yearOfPublication' => $booksDto->getYearOfPublication(),
         ];
 

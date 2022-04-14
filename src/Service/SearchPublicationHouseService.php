@@ -2,6 +2,7 @@
 
 namespace NonEfTech\BookCrossing\Service;
 
+use DateTimeImmutable;
 use NonEfTech\BookCrossing\Entity\PublicationHouse;
 use NonEfTech\BookCrossing\Entity\PublicationHouseInterface;
 use NonEfTech\BookCrossing\Service\SearchPublicationHouseService\PublicationHouseDto;
@@ -57,11 +58,16 @@ final class SearchPublicationHouseService
      */
     private function searchCriteriaToArray(SearchPublicationHouseCriteria $searchCriteria): array
     {
+
         $criteriaForRepository = [
-            'id' => $searchCriteria->getId(),
-            'name_of_publication_house' => $searchCriteria->getNameOfPublicationHouse(),
-            'year_of_creation' => $searchCriteria->getYearOfCreation(),
-            'owner_of_publication_house' =>$searchCriteria->getOwnerOfPublicationHouse()
+            'id'                      => $searchCriteria->getId(),
+            'nameOfPublicationHouse'  => $searchCriteria->getNameOfPublicationHouse(),
+            'yearOfCreation'          => $searchCriteria->getYearOfCreation()===null ? null :
+                DateTimeImmutable::createFromFormat(
+                'Y-m-d',
+                $searchCriteria->getYearOfCreation()
+            ),
+            'ownerOfPublicationHouse' => $searchCriteria->getOwnerOfPublicationHouse(),
         ];
         return array_filter($criteriaForRepository, static function ($v): bool {
             return null !== $v;

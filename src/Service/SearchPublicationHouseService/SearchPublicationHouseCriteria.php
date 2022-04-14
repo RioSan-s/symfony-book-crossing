@@ -26,6 +26,13 @@ class SearchPublicationHouseCriteria
     private ?string $yearOfCreation =null;
 
     /**
+     * Владелец дома публикации
+     *
+     * @var string|null
+     */
+    private ?string $ownerOfPublicationHouse=null;
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -35,6 +42,8 @@ class SearchPublicationHouseCriteria
 
     /**
      * @param int|null $id
+     *
+     * @return SearchPublicationHouseCriteria
      */
     public function setId(?int $id): SearchPublicationHouseCriteria
     {
@@ -52,6 +61,8 @@ class SearchPublicationHouseCriteria
 
     /**
      * @param string|null $nameOfPublicationHouse
+     *
+     * @return SearchPublicationHouseCriteria
      */
     public function setNameOfPublicationHouse(?string $nameOfPublicationHouse): SearchPublicationHouseCriteria
     {
@@ -69,6 +80,8 @@ class SearchPublicationHouseCriteria
 
     /**
      * @param string|null $yearOfCreation
+     *
+     * @return SearchPublicationHouseCriteria
      */
     public function setYearOfCreation(?string $yearOfCreation): SearchPublicationHouseCriteria
     {
@@ -86,6 +99,8 @@ class SearchPublicationHouseCriteria
 
     /**
      * @param string|null $ownerOfPublicationHouse
+     *
+     * @return SearchPublicationHouseCriteria
      */
     public function setOwnerOfPublicationHouse(?string $ownerOfPublicationHouse): SearchPublicationHouseCriteria
     {
@@ -93,10 +108,5 @@ class SearchPublicationHouseCriteria
         return $this;
     }
 
-    /**
-     * Владелец дома публикации
-     *
-     * @var string|null
-     */
-    private ?string $ownerOfPublicationHouse=null;
+
 }

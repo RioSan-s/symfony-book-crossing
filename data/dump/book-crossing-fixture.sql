@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.2
--- Dumped by pg_dump version 14.2
+-- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -28,14 +28,22 @@ INSERT INTO public.points VALUES (2, '+7 (963) 757-16-90', '10:00:00', '20:00:00
 
 
 --
+-- Data for Name: publication_house; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.publication_house VALUES (1, 'Эксмо', '1991-01-01', 'Александр Красовицкий');
+INSERT INTO public.publication_house VALUES (2, 'АСТ', '1990-01-01', 'Олег Новиков');
+
+
+--
 -- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.books VALUES (1, 'Мастер и Маргарита', 'Михаил Булгаков', 'Эксмо', 1, '2021-01-01');
-INSERT INTO public.books VALUES (2, 'Мёртвые души', 'Николай Гоголь', 'АСТ', 3, '2016-01-01');
-INSERT INTO public.books VALUES (3, 'Евгений Онегин', 'Александр Пушкин', 'Эксмо', 2, '2016-01-01');
-INSERT INTO public.books VALUES (4, 'Собака Баскервилей', 'Артур Конан Дойль', 'АСТ', 2, '2020-01-01');
-INSERT INTO public.books VALUES (5, 'Старик и море', 'Эрнест Хемингуэй', 'Эксмо', 1, '2002-01-01');
+INSERT INTO public.books VALUES (5, 'Старик и море', 'Эрнест Хемингуэй', 1, 1, '2002-01-01');
+INSERT INTO public.books VALUES (4, 'Собака Баскервилей', 'Артур Конан Дойль', 2, 2, '2020-01-01');
+INSERT INTO public.books VALUES (2, 'Мёртвые души', 'Николай Гоголь', 2, 3, '2016-01-01');
+INSERT INTO public.books VALUES (3, 'Евгений Онегин', 'Александр Пушкин', 1, 2, '2016-01-01');
+INSERT INTO public.books VALUES (1, 'Мастер и Маргарита', 'Михаил Булгаков', 1, 1, '2021-01-01');
 
 
 --
@@ -124,6 +132,7 @@ INSERT INTO public.act_of_taking VALUES (6, 4, 1, 7);
 INSERT INTO public.act_of_taking VALUES (7, 3, 1, 5);
 INSERT INTO public.act_of_taking VALUES (8, 1, 1, 1);
 INSERT INTO public.act_of_taking VALUES (29, 1, 4, 1);
+INSERT INTO public.act_of_taking VALUES (102, 5, 1, 5);
 
 
 --
@@ -166,7 +175,7 @@ INSERT INTO public.purchase_prices VALUES (5, '2021-10-31 00:00:00', 73200, 1, 2
 -- Name: act_of_taking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.act_of_taking_id_seq', 101, true);
+SELECT pg_catalog.setval('public.act_of_taking_id_seq', 102, true);
 
 
 --
@@ -188,6 +197,13 @@ SELECT pg_catalog.setval('public.currency_id_seq', 1, true);
 --
 
 SELECT pg_catalog.setval('public.points_id_seq', 5, true);
+
+
+--
+-- Name: publication_house_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.publication_house_id_seq', 2, true);
 
 
 --

@@ -30,9 +30,9 @@ final class BooksDto
     /**
      * Издательство книги
      *
-     * @var string
+     * @var PublicationHouseDto
      */
-    private string $publishingHouse;
+    private PublicationHouseDto $publishingHouse;
 
     /**
      * Год публикации книги
@@ -68,7 +68,7 @@ final class BooksDto
         int $id,
         string $title,
         string $author,
-        string $publishingHouse,
+        PublicationHouseDto $publishingHouse,
         int $yearOfPublication,
         PointsDto $point,
         array $purchasePrices
@@ -118,7 +118,7 @@ final class BooksDto
      *
      * @return string
      */
-    public function getPublishingHouse(): string
+    public function getPublishingHouse(): PublicationHouseDto
     {
         return $this->publishingHouse;
     }

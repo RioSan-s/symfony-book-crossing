@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityRepository;
 use NonEfTech\BookCrossing\Entity\Book;
 use NonEfTech\BookCrossing\Entity\BookRepositoryInterface;
 
+use function Doctrine\ORM\QueryBuilder;
+
 /**
  * Репозиторий книг в доктрине
  */
@@ -13,10 +15,10 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
 {
     private const REPLACED_CRITERIA = [
         'country' => 'address.country',
-        'city' => 'address.city',
-        'street' => 'address.street',
-        'home' => 'address.home',
-        'flat' => 'address.flat',
+        'city'    => 'address.city',
+        'street'  => 'address.street',
+        'home'    => 'address.home',
+        'flat'    => 'address.flat',
 
     ];
 
@@ -27,9 +29,10 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
     {
         $queryBuilder = $this->getEntityManager()
             ->createQueryBuilder();
-        $queryBuilder->select(['b', 'p'])
+        $queryBuilder->select(['b', 'p', 'ph'])
             ->from(Book::class, 'b')
-            ->leftJoin('b.point', 'p');
+            ->leftJoin('b.point', 'p')
+            ->leftJoin('ph.publicationHouse', 'ph');
         $this->buildWhere($queryBuilder, $criteria);
 
         return $queryBuilder->orderBy('b.id')
@@ -41,7 +44,7 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
      * Формируем условия поиска в запосе, на основе критериев
      *
      * @param \Doctrine\ORM\QueryBuilder $queryBuilder
-     * @param array $criteria
+     * @param array                      $criteria
      *
      * @return void
      */
@@ -59,6 +62,10 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
                 $whereExprAnd->add(
                     $queryBuilder->expr()
                         ->eq("p.$preparedCriteria", ":$criteriaName")
+                );
+            } elseif (0 === strpos($criteriaName, 'ph_')) {
+                $whereExprAnd->add($queryBuilder->expr()
+                                       ->eq("ph.$criteriaName", ":$criteriaName")
                 );
             } else {
                 $whereExprAnd->add(

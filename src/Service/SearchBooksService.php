@@ -7,6 +7,7 @@ use NonEfTech\BookCrossing\Entity\Book;
 use NonEfTech\BookCrossing\Entity\BookRepositoryInterface;
 use NonEfTech\BookCrossing\Service\SearchBooksService\BooksDto;
 use NonEfTech\BookCrossing\Service\SearchBooksService\PointsDto;
+use NonEfTech\BookCrossing\Service\SearchBooksService\PublicationHouseDto;
 use NonEfTech\BookCrossing\Service\SearchBooksService\SearchBooksCriteria;
 use Psr\Log\LoggerInterface;
 
@@ -68,7 +69,7 @@ final class SearchBooksService
             'id' => $searchCriteria->getId(),
             'title' => $searchCriteria->getTitle(),
             'author' => $searchCriteria->getAuthor(),
-            'publishingHouse' => $searchCriteria->getPublishingHouse(),
+            'ph_publishingHouse' => $searchCriteria->getNameOfPublicationHouse(),
             'yearOfPublication' => $searchCriteria->getYearOfPublication(),
             'point_id' => $searchCriteria->getPointId(),
             'point_phoneNumber' => $searchCriteria->getPhoneNumber(),
@@ -96,6 +97,14 @@ final class SearchBooksService
     private function createDto(Book $book): BooksDto
     {
         $point = $book->getPoint();
+        $publishingHouse = $book->getPublishingHouse();
+        $publishingHouse = new PublicationHouseDto(
+            $publishingHouse->getId(),
+            $publishingHouse->getNameOfPublicationHouse(),
+            $publishingHouse->getYearOfCreation(),
+            $publishingHouse->getOwnerOfPublicationHouse()
+        );
+
         $pointsDto = new PointsDto(
             $point->getId(),
             $point->getPhoneNumber(),
@@ -112,7 +121,7 @@ final class SearchBooksService
             $book->getId(),
             $book->getTitle(),
             $book->getAuthor(),
-            $book->getPublishingHouse(),
+            $publishingHouse,
             $book->getYearOfPublication()->format('Y'),
             $pointsDto,
             $book->getPurchasePrices()

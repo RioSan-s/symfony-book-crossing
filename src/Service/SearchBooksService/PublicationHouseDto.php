@@ -1,21 +1,19 @@
 <?php
 
-namespace NonEfTech\BookCrossing\Service\SearchPublicationHouseService;
+namespace NonEfTech\BookCrossing\Service\SearchBooksService;
 
-use DateTimeImmutable;
+use \DateTimeImmutable;
 
 class PublicationHouseDto
 {
     /**
      * Идентификатор дома публикации
-     *
      * @var int
      */
     private int $id;
 
     /**
      * Названия дома публикации
-     *
      * @var string
      */
     private string $nameOfPublicationHouse;
@@ -29,16 +27,15 @@ class PublicationHouseDto
 
     /**
      * Владелец дома публикации
-     *
      * @var string
      */
     private string $ownerOfPublicationHouse;
 
     /**
-     * @param int               $id
-     * @param string            $nameOfPublicationHouse
+     * @param int                                  $id
+     * @param string                               $nameOfPublicationHouse
      * @param DateTimeImmutable $yearOfCreation
-     * @param string            $ownerOfPublicationHouse
+     * @param string                               $ownerOfPublicationHouse
      */
     public function __construct(int $id,
         string $nameOfPublicationHouse,

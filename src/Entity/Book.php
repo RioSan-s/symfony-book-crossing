@@ -49,10 +49,13 @@ class Book
 
     /**
      * Издательство книги
-     * @ORM\Column(name="publishing_house", type="string", nullable = false, length=250)
-     * @var string
+     * @ORM\ManyToOne(targetEntity=\NonEfTech\BookCrossing\Entity\PublicationHouse::class, inversedBy="book",
+     *     cascade={"persist"})
+        * @ORM\JoinColumn(name="publishing_house_id", referencedColumnName="id")
+     *
+     * @var PublicationHouse
      */
-    private string $publishingHouse;
+    private PublicationHouse $publishingHouse;
 
     /**
      * Год публикации книги
@@ -82,21 +85,22 @@ class Book
      * @var Collection|AbstractAct[]
      */
     private Collection $acts;
+
     /**
-     * @param int $id - id книги
-     * @param string $title - название книги
-     * @param string $author - автор книги
-     * @param string $publishingHouse - издательство книги
+     * @param int               $id                - id книги
+     * @param string            $title             - название книги
+     * @param string            $author            - автор книги
+     * @param PublicationHouse            $publishingHouse   - издательство книги
      * @param DateTimeImmutable $yearOfPublication - год публикации книги
-     * @param PurchasePrice[] $purchasePrices
-     * @param Point $point - пункт выдачи книги
-     * @param AbstractAct|Collection $acts
+     * @param PurchasePrice[]   $purchasePrices
+     * @param Point             $point             - пункт выдачи книги
+     * @param array             $acts
      */
     public function __construct(
         int $id,
         string $title,
         string $author,
-        string $publishingHouse,
+        PublicationHouse $publishingHouse,
         DateTimeImmutable $yearOfPublication,
         array $purchasePrices,
         Point $point,
@@ -167,9 +171,9 @@ class Book
     /**
      * Возвращает издательство книги
      *
-     * @return string
+     * @return PublicationHouse
      */
-    public function getPublishingHouse(): string
+    public function getPublishingHouse(): PublicationHouse
     {
         return $this->publishingHouse;
     }

@@ -37,10 +37,11 @@ class GetPublicationHouseController extends AbstractController
             $this->searchPublicationHouseService->search(
                 (new SearchPublicationHouseService\SearchPublicationHouseCriteria())
                 ->setId( isset($params['id']) ? (int)$params['id'] : null)
-                ->setNameOfPublicationHouse($params['name_of_publication_house'] ?? null)
-                ->setYearOfCreation($params['year_of_creation'] ?? null)
-                ->setOwnerOfPublicationHouse($params['owner_of_publication_house'] ?? null)
+                ->setNameOfPublicationHouse($params['nameOfPublicationHouse'] ?? null)
+                ->setYearOfCreation($params['yearOfCreation'] ?? null)
+                ->setOwnerOfPublicationHouse($params['ownerOfPublicationHouse'] ?? null)
             );
+
 
         $result = $this->buildResult($foundPublicationHouses);
         $httpCode = 200;
@@ -55,7 +56,7 @@ class GetPublicationHouseController extends AbstractController
     /**
      * Подготавливает данные для ответа
      *
-     * @param array $foundTextDocuments
+     * @param array $foundPublicationHouses
      *
      * @return array
      */
@@ -63,12 +64,12 @@ class GetPublicationHouseController extends AbstractController
     {
         $result = [];
         foreach ($foundPublicationHouses as $foundPublicationHouse) {
-            $result[] = $this->serializeTextDocument($foundPublicationHouse);
+            $result[] = $this->serializePublicationHouses($foundPublicationHouse);
         }
         return $result;
     }
 
-    private function serializeTextDocument( SearchPublicationHouseService\PublicationHouseDto $dto)
+    private function serializePublicationHouses( SearchPublicationHouseService\PublicationHouseDto $dto)
     :array
     {
         return
