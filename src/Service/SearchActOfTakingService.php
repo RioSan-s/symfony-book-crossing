@@ -9,6 +9,7 @@ use NonEfTech\BookCrossing\Service\SearchActOfTakingService\ActOfTakingDto;
 use NonEfTech\BookCrossing\Service\SearchActOfTakingService\BooksDto;
 use NonEfTech\BookCrossing\Service\SearchActOfTakingService\ParticipantsDto;
 use NonEfTech\BookCrossing\Service\SearchActOfTakingService\PointsDto;
+use NonEfTech\BookCrossing\Service\SearchActOfTakingService\PublicationHouseDto;
 use NonEfTech\BookCrossing\Service\SearchActOfTakingService\SearchActOfTakingCriteria;
 use Psr\Log\LoggerInterface;
 
@@ -64,7 +65,7 @@ class SearchActOfTakingService
             'book_id' => $searchCriteria->getBookId(),
             'book_title' => $searchCriteria->getTitle(),
             'book_author' => $searchCriteria->getAuthor(),
-            'book_publishingHouse' => $searchCriteria->getPublishingHouse(),
+            'ph_nameOfPublicationHouse' => $searchCriteria->getPhNameOfPublicationHouse(),
             'book_yearOfPublication' => $searchCriteria->getYearOfPublication(),
             'point_id' => $searchCriteria->getPointId(),
             'point_phoneNumber' => $searchCriteria->getPointPhoneNumber(),
@@ -98,6 +99,7 @@ class SearchActOfTakingService
     private function createDto(ActOfTaking $actOfTaking): ActOfTakingDto
     {
         $book = $actOfTaking->getBook();
+        $publishingHouse = $book->getPublishingHouse();
         $point = $actOfTaking->getBook()
             ->getPoint();
         $participant = $actOfTaking->getParticipant();
@@ -116,7 +118,12 @@ class SearchActOfTakingService
             $book->getId(),
             $book->getTitle(),
             $book->getAuthor(),
-            $book->getPublishingHouse(),
+            new PublicationHouseDto(
+                $publishingHouse->getId(),
+                $publishingHouse->getNameOfPublicationHouse(),
+                $publishingHouse->getYearOfCreation(),
+                $publishingHouse->getOwnerOfPublicationHouse()
+            ),
             $book->getYearOfPublication()->format('Y'),
             $pointsDto,
             $book->getPurchasePrices()

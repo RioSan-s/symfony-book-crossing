@@ -24,9 +24,10 @@ class ActOfGivingDoctrineRepository extends EntityRepository implements
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $queryBuilder->select(['ag','b','pt','p'])
+        $queryBuilder->select(['ag', 'b', 'pt', 'p', 'ph'])
             ->from(ActOfGiving::class, 'ag')
             ->join('ag.book', 'b')->leftJoin('b.point', 'p')
+            ->join('b.publishingHouse', 'ph')
             ->leftJoin('ag.participant', 'pt');
         $this->buildWhere($queryBuilder, $criteria);
 
@@ -57,6 +58,12 @@ class ActOfGivingDoctrineRepository extends EntityRepository implements
                     $queryBuilder->expr()
                         ->eq("b.$criteriaName", ":$criteriaName")
                 );
+            } elseif (0 === strpos($criteriaName, 'ph_')) {
+                $criteriaName = substr($criteriaName, 3);
+                $whereExprAnd->add(
+                    $queryBuilder->expr()
+                        ->eq("ph.$criteriaName", ":$criteriaName")
+                );
             } elseif (0 === strpos($criteriaName, 'point_')) {
                 $preparedCriteria = $this->preparedAddressCriteria($criteriaName);
                 $whereExprAnd->add(
@@ -79,6 +86,7 @@ class ActOfGivingDoctrineRepository extends EntityRepository implements
         $queryBuilder->where($whereExprAnd);
         $queryBuilder->setParameter($criteriaName, $criteriaValue);
     }
+
     /**
      * Подготовка критереев для адрессов пункта обмена
      * @param string $key

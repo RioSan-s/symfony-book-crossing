@@ -8,7 +8,10 @@ client.test("Тестирование поиска книги по id", function
 client.assert(response.body["id"] === 1, "некорректный id книги");
 client.assert(response.body["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -48,7 +51,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -70,7 +76,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -92,7 +101,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -103,8 +115,8 @@ client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорре�
 });
  %}
 
-### Тестирование поиска книги по издательству
-GET http://localhost:8086/books?publishingHouse=Эксмо
+### Тестирование поиска книги по имени издательства
+GET http://localhost:8086/books?ph_nameOfPublicationHouse=Эксмо
 
 > {%
 client.test("Тестирование поиска книги по издательству", function (){
@@ -114,7 +126,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -124,6 +139,85 @@ client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорр�
 client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
 });
  %}
+
+### Тестирование поиска книги по идентификатору издательства
+GET http://localhost:8086/books?ph_id=1
+
+> {%
+client.test("Тестирование поиска книги по идентификатору издательства", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 3, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+
+### Тестирование поиска книги по году создания издательства
+GET http://localhost:8086/books?ph_yearOfCreation=1991-01-01
+
+> {%
+client.test("Тестирование поиска книги по году создания издательства", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 3, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+
+### Тестирование поиска книги по основателю издательства
+GET http://localhost:8086/books?ph_ownerOfPublicationHouse=Александр Красовицкий
+
+> {%
+client.test("Тестирование поиска книги по году создания издательства", function (){
+  client.assert(response.status === 200, "Ожидается код '200'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body.hasOwnProperty("length") && response.body.length === 3, "В ответе есть 1 элемент");
+client.assert(response.body[0]["id"] === 1, "некорректный id книги");
+client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
+client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
+client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
+client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
+client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
+client.assert(response.body[0]["point"]["phoneNumber"] === "+7 (962) 448-19-25", "некорректный номер пункта выдачи");
+client.assert(response.body[0]["point"]["address"] === "Россия, г. Уссурийск, Зеленая ул., д. 13 кв.200", "некорректный адрес пункта выдачи");
+client.assert(response.body[0]["point"]["startTime"] === "09:00", "некорректное время начала работы пункта выдачи");
+client.assert(response.body[0]["point"]["endTime"] === "18:00", "некорректное время окончания работы пункта выдачи");
+});
+ %}
+
+
 
 ### Тестирование поиска книги по году публикации
 GET http://localhost:8086/books?yearOfPublication=2021-01-01
@@ -136,7 +230,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -158,7 +255,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -180,7 +280,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length ===
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -202,7 +305,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -225,7 +331,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -247,7 +356,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -269,7 +381,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -292,7 +407,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -314,7 +432,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -336,7 +457,10 @@ client.assert(response.body.hasOwnProperty("length") && response.body.length > 1
 client.assert(response.body[0]["id"] === 1, "некорректный id книги");
 client.assert(response.body[0]["title"] === "Мастер и Маргарита", "некорректное название книги");
 client.assert(response.body[0]["author"] === "Михаил Булгаков", "некорректный автор книги");
-client.assert(response.body[0]["publishingHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["id"] === 1, "некорректный идентификатор книги");
+client.assert(response.body[0]["publishingHouse"]["nameOfPublicationHouse"] === "Эксмо", "некорректное издательство книги");
+client.assert(response.body[0]["publishingHouse"]["yearOfCreation"] === 1991, "некорректный год создания издательства книги");
+client.assert(response.body[0]["publishingHouse"]["ownerOfPublicationHouse"] === "Александр Красовицкий", "некорректный основатель издательства книги");
 client.assert(response.body[0]["yearOfPublication"] === 2021, "некорректный год издания книги");
 client.assert(response.body[0]["point"] !== undefined, "нет данных о пункте выдачи");
 client.assert(response.body[0]["point"]["id"] === 1, "некорректный id пункта выдачи");
@@ -395,14 +519,14 @@ client.test("Ломаные запросы. Тестирование поиск�
  %}
 
 ### Ломаные запросы. Тестирование поиска книги по издательству
-GET http://localhost:8086/books?publishingHouse[]=Эксмо
+GET http://localhost:8086/books?ph_nameOfPublicationHouse[]=Эксмо
 
 > {%
 client.test("Ломаные запросы. Тестирование поиска книги по издательству", function (){
     client.assert(response.status === 500, "Был получен код '" + response.status + "', ожидалось 500.");
     client.assert(response.contentType.mimeType === "application/json", "Было получено '" +
          response.contentType.mimeType + "', ожидалось 'application/json'.");
-    client.assert(response.body["message"] === "Некорректный тип данных издания автора книги", "Ожидалось '[publishingHouse] : Некорректный тип данных автора книги'. " +
+    client.assert(response.body["message"] === "Некорректный тип данных имени издательства книги", "Ожидалось '[publishingHouse] : Некорректный тип данных автора книги'. " +
         "Было получено '" + response.body["message"] + "'.");
     client.assert(response.body["status"] === "fail", "Ожидался статус 'fail'. Было получено '" +
         response.body["status"] + "'.");

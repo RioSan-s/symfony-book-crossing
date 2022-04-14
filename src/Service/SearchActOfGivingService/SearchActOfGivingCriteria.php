@@ -33,11 +33,11 @@ class SearchActOfGivingCriteria
     private ?string $author = null;
 
     /**
-     * Издательство книги
+     * Названия дома публикации
      *
      * @var string|null
      */
-    private ?string $publishingHouse = null;
+    private ?string $phNameOfPublicationHouse =null;
 
     /**
      * Год публикации книги
@@ -231,21 +231,21 @@ class SearchActOfGivingCriteria
     /**
      * @return string|null
      */
-    public function getPublishingHouse(): ?string
+    public function getPhNameOfPublicationHouse(): ?string
     {
-        return $this->publishingHouse;
+        return $this->phNameOfPublicationHouse;
     }
 
     /**
-     * @param string|null $publishingHouse
-     *
+     * @param string|null $phNameOfPublicationHouse
      * @return SearchActOfGivingCriteria
      */
-    public function setPublishingHouse(?string $publishingHouse): SearchActOfGivingCriteria
+    public function setPhNameOfPublicationHouse(?string $phNameOfPublicationHouse): SearchActOfGivingCriteria
     {
-        $this->publishingHouse = $publishingHouse;
+        $this->phNameOfPublicationHouse = $phNameOfPublicationHouse;
         return $this;
     }
+
 
     /**
      * @return string|null

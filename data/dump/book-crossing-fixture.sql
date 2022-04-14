@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped from database version 14.2
+-- Dumped by pg_dump version 14.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -133,6 +133,9 @@ INSERT INTO public.act_of_taking VALUES (7, 3, 1, 5);
 INSERT INTO public.act_of_taking VALUES (8, 1, 1, 1);
 INSERT INTO public.act_of_taking VALUES (29, 1, 4, 1);
 INSERT INTO public.act_of_taking VALUES (102, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (103, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (104, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (105, 5, 1, 5);
 
 
 --
@@ -175,7 +178,7 @@ INSERT INTO public.purchase_prices VALUES (5, '2021-10-31 00:00:00', 73200, 1, 2
 -- Name: act_of_taking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.act_of_taking_id_seq', 102, true);
+SELECT pg_catalog.setval('public.act_of_taking_id_seq', 105, true);
 
 
 --

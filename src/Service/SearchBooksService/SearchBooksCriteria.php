@@ -30,28 +30,28 @@ class SearchBooksCriteria
      *
      * @var int|null
      */
-    private ?int $publishingHouseId = null;
+    private ?int $phId = null;
 
     /**
      * Названия дома публикации
      *
      * @var string|null
      */
-    private ?string $nameOfPublicationHouse =null;
+    private ?string $phNameOfPublicationHouse =null;
 
     /**
      * Год создания публикации
      *
      * @var string|null
      */
-    private ?string $yearOfCreation =null;
+    private ?string $phYearOfCreation =null;
 
     /**
      * Владелец дома публикации
      *
      * @var string|null
      */
-    private ?string $ownerOfPublicationHouse=null;
+    private ?string $phOwnerOfPublicationHouse=null;
 
     /**
      * Год публикации книги
@@ -185,76 +185,72 @@ class SearchBooksCriteria
     /**
      * @return int|null
      */
-    public function getPublishingHouseId(): ?int
+    public function getPhId(): ?int
     {
-        return $this->publishingHouseId;
+        return $this->phId;
     }
 
     /**
-     * @param int|null $publishingHouseId
-     *
+     * @param int|null $phId
      * @return SearchBooksCriteria
      */
-    public function setPublishingHouseId(?int $publishingHouseId): SearchBooksCriteria
+    public function setPhId(?int $phId): SearchBooksCriteria
     {
-        $this->publishingHouseId = $publishingHouseId;
+        $this->phId = $phId;
         return $this;
     }
 
     /**
      * @return string|null
      */
-    public function getNameOfPublicationHouse(): ?string
+    public function getPhNameOfPublicationHouse(): ?string
     {
-        return $this->nameOfPublicationHouse;
+        return $this->phNameOfPublicationHouse;
     }
 
     /**
-     * @param string|null $nameOfPublicationHouse
-     *
+     * @param string|null $phNameOfPublicationHouse
      * @return SearchBooksCriteria
      */
-    public function setNameOfPublicationHouse(?string $nameOfPublicationHouse): SearchBooksCriteria
+    public function setPhNameOfPublicationHouse(?string $phNameOfPublicationHouse): SearchBooksCriteria
     {
-        $this->nameOfPublicationHouse = $nameOfPublicationHouse;
+        $this->phNameOfPublicationHouse = $phNameOfPublicationHouse;
         return $this;
     }
 
     /**
      * @return string|null
      */
-    public function getYearOfCreation(): ?string
+    public function getPhYearOfCreation(): ?string
     {
-        return $this->yearOfCreation;
+        return $this->phYearOfCreation;
     }
 
     /**
-     * @param string|null $yearOfCreation
-     *
+     * @param string|null $phYearOfCreation
      * @return SearchBooksCriteria
      */
-    public function setYearOfCreation(?string $yearOfCreation): SearchBooksCriteria
+    public function setPhYearOfCreation(?string $phYearOfCreation): SearchBooksCriteria
     {
-        $this->yearOfCreation = $yearOfCreation;
+        $this->phYearOfCreation = $phYearOfCreation;
         return $this;
     }
 
     /**
      * @return string|null
      */
-    public function getOwnerOfPublicationHouse(): ?string
+    public function getPhOwnerOfPublicationHouse(): ?string
     {
-        return $this->ownerOfPublicationHouse;
+        return $this->phOwnerOfPublicationHouse;
     }
 
     /**
-     * @param string|null $ownerOfPublicationHouse
-     *
+     * @param string|null $phOwnerOfPublicationHouse
      * @return SearchBooksCriteria
      */
-    public function setOwnerOfPublicationHouse(?string $ownerOfPublicationHouse): SearchBooksCriteria
+    public function setPhOwnerOfPublicationHouse(?string $phOwnerOfPublicationHouse): SearchBooksCriteria
     {
-        $this->ownerOfPublicationHouse = $ownerOfPublicationHouse;
+        $this->phOwnerOfPublicationHouse = $phOwnerOfPublicationHouse;
         return $this;
     }
 

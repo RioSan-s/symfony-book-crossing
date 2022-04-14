@@ -2,6 +2,7 @@
 
 namespace NonEfTech\BookCrossing\Service\SearchActOfGivingService;
 
+use NonEfTech\BookCrossing\Service\SearchActOfTakingService\PublicationHouseDto;
 use NonEfTech\BookCrossing\ValueObject\PurchasePrice;
 
 final class BooksDto
@@ -32,7 +33,7 @@ final class BooksDto
      *
      * @var string
      */
-    private string $publishingHouse;
+    private PublicationHouseDto $publishingHouse;
 
     /**
      * Год публикации книги
@@ -59,7 +60,7 @@ final class BooksDto
      * @param int             $id
      * @param string          $title
      * @param string          $author
-     * @param string          $publishingHouse
+     * @param PublicationHouseDto          $publishingHouse
      * @param int             $yearOfPublication
      * @param PointsDto       $point
      * @param PurchasePrice[] $purchasePrices
@@ -68,7 +69,7 @@ final class BooksDto
         int $id,
         string $title,
         string $author,
-        string $publishingHouse,
+        PublicationHouseDto $publishingHouse,
         int $yearOfPublication,
         PointsDto $point,
         array $purchasePrices
@@ -118,7 +119,7 @@ final class BooksDto
      *
      * @return string
      */
-    public function getPublishingHouse(): string
+    public function getPublishingHouse(): PublicationHouseDto
     {
         return $this->publishingHouse;
     }

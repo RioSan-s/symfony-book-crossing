@@ -26,9 +26,10 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
-        $queryBuilder->select(['at','b','pt','p'])
+        $queryBuilder->select(['at', 'b', 'pt', 'p'])
             ->from(ActOfTaking::class, 'at')
             ->join('at.book', 'b')->leftJoin('b.point', 'p')
+            ->join('b.publishingHouse', 'ph')
             ->leftJoin('at.participant', 'pt');
         $this->buildWhere($queryBuilder, $criteria);
 
@@ -58,6 +59,12 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
                 $whereExprAnd->add(
                     $queryBuilder->expr()
                         ->eq("b.$criteriaName", ":$criteriaName")
+                );
+            } elseif (0 === strpos($criteriaName, 'ph_')) {
+                $criteriaName = substr($criteriaName, 3);
+                $whereExprAnd->add(
+                    $queryBuilder->expr()
+                        ->eq("ph.$criteriaName", ":$criteriaName")
                 );
             } elseif (0 === strpos($criteriaName, 'point_')) {
                 $preparedCriteria = $this->preparedAddressCriteria($criteriaName);

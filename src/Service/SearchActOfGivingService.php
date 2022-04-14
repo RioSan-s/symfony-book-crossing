@@ -10,6 +10,7 @@ use NonEfTech\BookCrossing\Service\SearchActOfGivingService\BooksDto;
 use NonEfTech\BookCrossing\Service\SearchActOfGivingService\ParticipantsDto;
 use NonEfTech\BookCrossing\Service\SearchActOfGivingService\PointsDto;
 use NonEfTech\BookCrossing\Service\SearchActOfGivingService\SearchActOfGivingCriteria;
+use NonEfTech\BookCrossing\Service\SearchActOfTakingService\PublicationHouseDto;
 use Psr\Log\LoggerInterface;
 
 class SearchActOfGivingService
@@ -65,7 +66,7 @@ class SearchActOfGivingService
             'book_id'           => $searchCriteria->getBookId(),
             'book_title'             => $searchCriteria->getTitle(),
             'book_author'            => $searchCriteria->getAuthor(),
-            'book_publishingHouse'   => $searchCriteria->getPublishingHouse(),
+            'ph_nameOfPublicationHouse' => $searchCriteria->getPhNameOfPublicationHouse(),
             'book_yearOfPublication' => $searchCriteria->getYearOfPublication(),
             'point_id'          => $searchCriteria->getPointId(),
             'point_phoneNumber' => $searchCriteria->getPointPhoneNumber(),
@@ -99,6 +100,7 @@ class SearchActOfGivingService
     private function createDto(ActOfGiving $actOfGiving): ActOfGivingDto
     {
         $book = $actOfGiving->getBook();
+        $publishingHouse = $book->getPublishingHouse();
         $point = $actOfGiving->getBook()
             ->getPoint();
         $participant = $actOfGiving->getParticipant();
@@ -117,7 +119,12 @@ class SearchActOfGivingService
             $book->getId(),
             $book->getTitle(),
             $book->getAuthor(),
-            $book->getPublishingHouse(),
+            new PublicationHouseDto(
+                $publishingHouse->getId(),
+                $publishingHouse->getNameOfPublicationHouse(),
+                $publishingHouse->getYearOfCreation(),
+                $publishingHouse->getOwnerOfPublicationHouse()
+            ),
             $book->getYearOfPublication()->format('Y'),
             $pointsDto,
             $book->getPurchasePrices()

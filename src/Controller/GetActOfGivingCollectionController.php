@@ -76,8 +76,8 @@ class GetActOfGivingCollectionController extends AbstractController
                     )
                     ->setTitle($params['book_title'] ?? null)
                     ->setAuthor($params['book_author'] ?? null)
-                    ->setPublishingHouse(
-                        $params['book_publishingHouse']
+                    ->setPhNameOfPublicationHouse(
+                        $params['ph_nameOfPublicationHouse']
                         ??
                         null
                     )
@@ -194,7 +194,7 @@ class GetActOfGivingCollectionController extends AbstractController
                                     new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_author']),
                                 ]
                             ),
-                        'book_publishingHouse' =>
+                        'ph_nameOfPublicationHouse' =>
                             new Assert\Optional(
                                 [
                                     new Assert\Type(['type' => 'string', 'message' => 'Incorrect book_publishingHouse']
@@ -307,7 +307,7 @@ class GetActOfGivingCollectionController extends AbstractController
             'id' => $booksDto->getId(),
             'title' => $booksDto->getTitle(),
             'author' => $booksDto->getAuthor(),
-            'publishingHouse' => $booksDto->getPublishingHouse(),
+            'publishingHouse' => $booksDto->getPublishingHouse()->getNameOfPublicationHouse(),
             'yearOfPublication' => $booksDto->getYearOfPublication(),
         ];
 

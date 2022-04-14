@@ -26,18 +26,20 @@ class SearchActOfTakingCriteria
     private ?string $title = null;
 
     /**
+     * Названия дома публикации
+     *
+     * @var string|null
+     */
+    private ?string $phNameOfPublicationHouse =null;
+
+    /**
      * Имя и фамилия автора книги
      *
      * @var string|null
      */
     private ?string $author = null;
 
-    /**
-     * Издательство книги
-     *
-     * @var string|null
-     */
-    private ?string $publishingHouse = null;
+
 
     /**
      * Год публикации книги
@@ -321,21 +323,23 @@ class SearchActOfTakingCriteria
     /**
      * @return string|null
      */
-    public function getPublishingHouse(): ?string
+    public function getPhNameOfPublicationHouse(): ?string
     {
-        return $this->publishingHouse;
+        return $this->phNameOfPublicationHouse;
     }
 
     /**
-     * @param string|null $publishingHouse
-     *
+     * @param string|null $phNameOfPublicationHouse
      * @return SearchActOfTakingCriteria
      */
-    public function setPublishingHouse(?string $publishingHouse): SearchActOfTakingCriteria
+    public function setPhNameOfPublicationHouse(?string $phNameOfPublicationHouse): SearchActOfTakingCriteria
     {
-        $this->publishingHouse = $publishingHouse;
+        $this->phNameOfPublicationHouse = $phNameOfPublicationHouse;
         return $this;
     }
+
+
+
 
     /**
      * @return string|null

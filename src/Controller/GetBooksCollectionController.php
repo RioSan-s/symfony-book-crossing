@@ -74,8 +74,17 @@ class GetBooksCollectionController extends AbstractController
                     )
                     ->setTitle($params['title'] ?? null)
                     ->setAuthor($params['author'] ?? null)
-                    ->setNameOfPublicationHouse(
-                        $params['ph_publishingHouse'] ?? null
+                    ->setPhId(
+                        $params['ph_id'] ?? null
+                    )
+                    ->setPhNameOfPublicationHouse(
+                        $params['ph_nameOfPublicationHouse'] ?? null
+                    )
+                    ->setPhYearOfCreation(
+                        $params['ph_yearOfCreation'] ?? null
+                    )
+                    ->setPhOwnerOfPublicationHouse(
+                        $params['ph_ownerOfPublicationHouse'] ?? null
                     )
                     ->setYearOfPublication(
                         $params['yearOfPublication']
@@ -122,7 +131,6 @@ class GetBooksCollectionController extends AbstractController
      */
     private function booksValidator(Request $serverRequest): ?string
     {
-
         $params = array_merge($serverRequest->query->all(), $serverRequest->attributes->all());
         $constraint = new Assert\Collection(
             [
@@ -147,11 +155,36 @@ class GetBooksCollectionController extends AbstractController
                             new Assert\NotBlank(['message' => 'Автор книги не должен быть пустой строкой']),
                             new Assert\Type(['type' => 'string'], 'Некорректный тип данных автора книги'),
                         ],
-                    'publishingHouse' =>
+                    'ph_id' =>
                         [
-                            new Assert\NotNull(['message' => 'Отсутствует автор книги']),
-                            new Assert\NotBlank(['message' => 'Автор книги не должен быть пустой строкой']),
-                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных издания автора книги'),
+                            new Assert\NotNull(['message' => 'Отсутствует id издательства книги']),
+                            new Assert\NotBlank(['message' => 'Издательство книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных Издательства книги'),
+                        ],
+                    'ph_nameOfPublicationHouse' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует имя издательство книги']),
+                            new Assert\NotBlank(['message' => 'Имя издательства книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных имени издательства книги'),
+                        ],
+                    'ph_yearOfCreation' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует год основания издательства книги']),
+                            new Assert\NotBlank(['message' => 'Год основания издательства книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных год основания издательства книги'),
+                            new Assert\Length(
+                                [
+                                    'min' => 10,
+                                    'max' => 10,
+                                    'exactMessage' => 'Длина поля год должна состоять из 4 символов',
+                                ]
+                            ),
+                        ],
+                    'ph_ownerOfPublicationHouse' =>
+                        [
+                            new Assert\NotNull(['message' => 'Отсутствует основатель издательства книги']),
+                            new Assert\NotBlank(['message' => 'Основатель издательства книги не должен быть пустой строкой']),
+                            new Assert\Type(['type' => 'string'], 'Некорректный тип данных основатель издательства книги'),
                         ],
                     'yearOfPublication' =>
                         [
@@ -252,13 +285,20 @@ class GetBooksCollectionController extends AbstractController
 
     final protected function serializeBooks(BooksDto $booksDto): array
     {
+        $publishingHouseDto = $booksDto->getPublishingHouse();
         $jsonData = [
             'id' => $booksDto->getId(),
             'title' => $booksDto->getTitle(),
             'author' => $booksDto->getAuthor(),
-            'publishingHouse' => $booksDto->getPublishingHouse()->getNameOfPublicationHouse(),
+            'publishingHouse' => [
+                'id' => $publishingHouseDto->getId(),
+                'nameOfPublicationHouse' => $publishingHouseDto->getNameOfPublicationHouse(),
+                'yearOfCreation' => (int)$publishingHouseDto->getYearOfCreation()->format('Y'),
+                'ownerOfPublicationHouse' => $publishingHouseDto->getOwnerOfPublicationHouse()
+            ],
             'yearOfPublication' => $booksDto->getYearOfPublication(),
         ];
+
 
         $pointsDto = $booksDto->getPoint();
         $jsonData['point'] = [
