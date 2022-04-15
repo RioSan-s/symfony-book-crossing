@@ -110,7 +110,7 @@ final class SearchBooksService
 
         $pointsDto = new PointsDto(
             $point->getId(),
-            $point->getPhoneNumber(),
+            $point->getPhoneNumber()->getPhoneNumber(),
             $point->getAddress()->getCountry(),
             $point->getAddress()->getCity(),
             $point->getAddress()->getStreet(),

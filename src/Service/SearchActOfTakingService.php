@@ -105,7 +105,7 @@ class SearchActOfTakingService
         $participant = $actOfTaking->getParticipant();
         $pointsDto = new PointsDto(
             $point->getId(),
-            $point->getPhoneNumber(),
+            $point->getPhoneNumber()->getPhoneNumber(),
             $point->getAddress()->getCountry(),
             $point->getAddress()->getCity(),
             $point->getAddress()->getStreet(),
@@ -131,7 +131,7 @@ class SearchActOfTakingService
         $participantsDto = new ParticipantsDto(
             $participant->getId(),
             $participant->getFio(),
-            $participant->getPhoneNumber(),
+            $participant->getPhoneNumber()->getPhoneNumber(),
             $participant->getDateOfBirth(),
             $participant->getEmail(),
         );

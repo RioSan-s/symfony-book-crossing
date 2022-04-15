@@ -16,7 +16,7 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
         'street' => 'address.street',
         'home' => 'address.home',
         'flat' => 'address.flat',
-
+        'phoneNumber'=>'phoneNumber.phoneNumber'
     ];
 
 
@@ -73,10 +73,11 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
                         ->eq("p.$preparedCriteria", ":$criteriaName")
                 );
             } elseif (0 === strpos($criteriaName, 'participant_')) {
-                $criteriaName = substr($criteriaName, 12);
+                $preparedCriteriaName = $this ->preparedCriteriaForParticipant($criteriaName);
+
                 $whereExprAnd->add(
                     $queryBuilder->expr()
-                        ->eq("pt.$criteriaName", ":$criteriaName")
+                        ->eq("pt.$preparedCriteriaName", ":$criteriaName")
                 );
             } else {
                 $whereExprAnd->add(
@@ -109,6 +110,25 @@ class ActOfTakingDoctrineRepository extends EntityRepository implements
         return $preparedCriteriaName;
     }
 
+
+    /**
+     * Подготовка критериев для поиска авторов
+     *
+     * @param string $propertyName
+     *
+     * @return string
+     */
+    private function preparedCriteriaForParticipant(string $propertyName): string
+    {
+
+        $propertyName = substr($propertyName, 12);
+        if (array_key_exists($propertyName, self::REPLACED_CRITERIA)) {
+            $preparedCriteriaName = self::REPLACED_CRITERIA[$propertyName];
+        } else {
+            $preparedCriteriaName = $propertyName;
+        }
+        return $preparedCriteriaName;
+    }
 
     /**
      * @inheritDoc

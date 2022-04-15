@@ -4,6 +4,7 @@ namespace NonEfTech\BookCrossing\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use NonEfTech\BookCrossing\ValueObject\PhoneNumber;
 
 /**
  * Абстрактный класс пользователей
@@ -46,11 +47,12 @@ abstract class AbstractUsers
     private string $fio;
 
     /**
-     * Номер телефона пользователя
-     * @ORM\Column(name="phone_number",type="string",nullable = false,length=35)
-     * @var string
+     * Номер телефона пункта обмена
+     *
+     * @ORM\Embedded(class=\NonEfTech\BookCrossing\ValueObject\PhoneNumber::class, columnPrefix=false)
+     * @var PhoneNumber
      */
-    private string $phoneNumber;
+    private PhoneNumber $phoneNumber;
 
     /**
      * Дата рождения пользователя
@@ -62,7 +64,7 @@ abstract class AbstractUsers
     /**
      * @param int    $id
      * @param string $fio
-     * @param string $phoneNumber
+     * @param PhoneNumber $phoneNumber
      * @param DateTimeImmutable $dateOfBirth
      */
     public function __construct(int $id, string $fio, string $phoneNumber, DateTimeImmutable $dateOfBirth)
@@ -92,7 +94,7 @@ abstract class AbstractUsers
     /**
      * @return string
      */
-    public function getPhoneNumber(): string
+    public function getPhoneNumber(): PhoneNumber
     {
         return $this->phoneNumber;
     }

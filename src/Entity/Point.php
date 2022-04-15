@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use NonEfTech\BookCrossing\ValueObject\Addresses;
+use NonEfTech\BookCrossing\ValueObject\PhoneNumber;
 
 /**
  * Пункт обмена
@@ -37,10 +38,10 @@ class Point
     /**
      * Номер телефона пункта обмена
      *
-     * @ORM\Column(name="phone_number", type="string", nullable = false, length=20)
-     * @var string
+     * @ORM\Embedded(class=\NonEfTech\BookCrossing\ValueObject\PhoneNumber::class, columnPrefix=false)
+     * @var PhoneNumber
      */
-    private string $phoneNumber;
+    private PhoneNumber $phoneNumber;
 
     /**
      * Адрес пункта обмена
@@ -80,7 +81,7 @@ class Point
 
     /**
      * @param int $id - id пункта обмена
-     * @param string $phoneNumber - номер телефона пункта обмена
+     * @param PhoneNumber $phoneNumber - номер телефона пункта обмена
      * @param Addresses $address - адрес пункта обмена
      * @param DateTimeImmutable $startTime - время начала работы пункта обмена
      * @param DateTimeImmutable $endTime - время окончания работы пункта обмена
@@ -88,7 +89,7 @@ class Point
      */
     public function __construct(
         int $id,
-        string $phoneNumber,
+        PhoneNumber $phoneNumber,
         Addresses $address,
         DateTimeImmutable $startTime,
         DateTimeImmutable $endTime,
@@ -116,9 +117,9 @@ class Point
     /**
      * Возвращает номер телефона пункта обмена
      *
-     * @return string
+     * @return PhoneNumber
      */
-    public function getPhoneNumber(): string
+    public function getPhoneNumber(): PhoneNumber
     {
         return $this->phoneNumber;
     }
@@ -126,7 +127,7 @@ class Point
     /**
      * Возвращает адрес пункта обмена
      *
-     * @return string
+     * @return Addresses
      */
     public function getAddress(): Addresses
     {

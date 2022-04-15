@@ -64,7 +64,7 @@ final class SearchPointsService
     {
         $criteriaForRepository = [
             'id' => $searchCriteria->getId(),
-            'phoneNumber' => $searchCriteria->getPhoneNumber(),
+            'phone_number' => $searchCriteria->getPhoneNumber(),
             'country' => $searchCriteria->getCountry(),
             'city' => $searchCriteria->getCity(),
             'street' => $searchCriteria->getStreet(),
@@ -94,7 +94,7 @@ final class SearchPointsService
     {
         return new PointsDto(
             $point->getId(),
-            $point->getPhoneNumber(),
+            $point->getPhoneNumber()->getPhoneNumber(),
             $point->getAddress()->getCountry(),
             $point->getAddress()->getCity(),
             $point->getAddress()->getStreet(),

@@ -106,7 +106,7 @@ class SearchActOfGivingService
         $participant = $actOfGiving->getParticipant();
         $pointsDto = new PointsDto(
             $point->getId(),
-            $point->getPhoneNumber(),
+            $point->getPhoneNumber()->getPhoneNumber(),
             $point->getAddress()->getCountry(),
             $point->getAddress()->getCity(),
             $point->getAddress()->getStreet(),
@@ -132,7 +132,7 @@ class SearchActOfGivingService
         $participantsDto = new ParticipantsDto(
             $participant->getId(),
             $participant->getFio(),
-            $participant->getPhoneNumber(),
+            $participant->getPhoneNumber()->getPhoneNumber(),
             $participant->getDateOfBirth(),
             $participant->getEmail(),
         );

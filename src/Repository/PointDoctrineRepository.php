@@ -14,7 +14,7 @@ class PointDoctrineRepository extends EntityRepository implements
         'street' => 'address.street',
         'home' => 'address.home',
         'flat' => 'address.flat',
-
+        'phone_number'=>'phoneNumber.phoneNumber'
     ];
 
     /**

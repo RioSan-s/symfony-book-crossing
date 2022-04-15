@@ -20,6 +20,7 @@ class BookDoctrineRepository extends EntityRepository implements BookRepositoryI
         'street' => 'address.street',
         'home' => 'address.home',
         'flat' => 'address.flat',
+        'phoneNumber'=>'phoneNumber.phoneNumber'
 
     ];
 

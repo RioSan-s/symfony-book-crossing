@@ -8,6 +8,10 @@ use NonEfTech\BookCrossing\Entity\ParticipantRepositoryInterface;
 class ParticipantDoctrineRepository extends \Doctrine\ORM\EntityRepository implements
     ParticipantRepositoryInterface
 {
+    private const REPLACED_CRITERIA = [
+        'phone_number'=>'phoneNumber.phoneNumber'
+    ];
+
     /**
      * @inheritDoc
      */
@@ -20,6 +24,8 @@ class ParticipantDoctrineRepository extends \Doctrine\ORM\EntityRepository imple
         return $queryBuilder->orderBy('p.id')->getQuery()
             ->getResult();
     }
+
+
 
     /**
      * Формируем условия поиска в запосе, на основе критериев
@@ -37,13 +43,34 @@ class ParticipantDoctrineRepository extends \Doctrine\ORM\EntityRepository imple
         $whereExprAnd = $queryBuilder->expr()
             ->andX();
         foreach ($criteria as $criteriaName => $criteriaValue) {
+            $preparedCriteriaName = $this ->preparedCriteriaForParticipant($criteriaName);
             $whereExprAnd->add(
                 $queryBuilder->expr()
-                    ->eq("p.$criteriaName", ":$criteriaName")
+                    ->eq("p.$preparedCriteriaName", ":$criteriaName")
             );
         }
         $queryBuilder->where($whereExprAnd);
         $queryBuilder->setParameter($criteriaName, $criteriaValue);
+    }
+
+
+    /**
+     * Подготовка критериев для поиска авторов
+     *
+     * @param string $criteriaName
+     *
+     * @return string
+     */
+    private function preparedCriteriaForParticipant(string $propertyName): string
+    {
+
+
+        if (array_key_exists($propertyName, self::REPLACED_CRITERIA)) {
+            $preparedCriteriaName = self::REPLACED_CRITERIA[$propertyName];
+        } else {
+            $preparedCriteriaName = $propertyName;
+        }
+        return $preparedCriteriaName;
     }
 
 }
