@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.2
--- Dumped by pg_dump version 14.2
+-- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,7 +21,7 @@ DROP DATABASE IF EXISTS book_crossing;
 -- Name: book_crossing; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE book_crossing WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'Russian_Russia.1251';
+CREATE DATABASE book_crossing WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'ru_RU.UTF-8' LC_CTYPE = 'ru_RU.UTF-8';
 
 
 ALTER DATABASE book_crossing OWNER TO postgres;
@@ -391,6 +391,11 @@ INSERT INTO public.act_of_taking VALUES (102, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (103, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (104, 5, 1, 5);
 INSERT INTO public.act_of_taking VALUES (105, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (106, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (107, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (108, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (109, 5, 1, 5);
+INSERT INTO public.act_of_taking VALUES (110, 5, 1, 5);
 
 
 --
@@ -426,7 +431,6 @@ INSERT INTO public.currency VALUES (1, '643', 'RUB', 'Рубль');
 -- Data for Name: doctrine_migration_versions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.doctrine_migration_versions VALUES ('NonEfTech\BookCrossing\Migrations\Version20220322163952', '2022-03-22 16:40:49', 53);
 
 
 --
@@ -494,7 +498,7 @@ INSERT INTO public.users VALUES (12, 'Русских Виталий Гаврнн
 -- Name: act_of_taking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.act_of_taking_id_seq', 105, true);
+SELECT pg_catalog.setval('public.act_of_taking_id_seq', 110, true);
 
 
 --
