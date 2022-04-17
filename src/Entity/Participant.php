@@ -62,34 +62,6 @@ class Participant extends AbstractUsers
         return $this->acts->toArray();
     }
 
-    /**
-     * Создает сущность "Пользователь" из массива
-     *
-     * @param array $data
-     *
-     * @return Participant
-     */
-    public static function createFromArray(array $data): Participant
-    {
-        $requiredFields = [
-            'id',
-            'fio',
-            'phoneNumber',
-            'dateOfBirth',
-            'email',
-
-
-        ];
-        $missingFields = array_diff($requiredFields, array_keys($data));
-
-        if (count($missingFields) > 0) {
-            $errMsg = sprintf("Отсутствуют обязательные элементы: %s", implode(',', $missingFields));
-            throw new InvalidDataStructureException($errMsg);
-        }
-
-
-        return new Participant($data['id'], $data['fio'], $data['phoneNumber'], $data['dateOfBirth'], $data['email']);
-    }
 
     /**
      * Возвращает email участника обмена

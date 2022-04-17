@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
--- Dumped by pg_dump version 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1)
+-- Dumped from database version 14.2
+-- Dumped by pg_dump version 14.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -155,6 +155,22 @@ INSERT INTO public.admin VALUES (12, 3, 10000, 'admin5', '$2y$10$ULC5LeqakqzJ9kY
 
 
 --
+-- Data for Name: status; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.status VALUES (5, 'banned');
+INSERT INTO public.status VALUES (6, 'unBanned');
+
+
+--
+-- Data for Name: blacklist; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO public.blacklist VALUES (28, 5, 'Забанили по причине ужасного обращения с книгами', 5, '2022-04-17 19:58:30');
+INSERT INTO public.blacklist VALUES (29, 5, 'Разбанили, он искупил свою вину', 6, '2022-04-17 20:00:00');
+
+
+--
 -- Data for Name: currency; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -183,6 +199,13 @@ INSERT INTO public.purchase_prices VALUES (5, '2021-10-31 00:00:00', 73200, 1, 2
 --
 
 SELECT pg_catalog.setval('public.act_of_taking_id_seq', 110, true);
+
+
+--
+-- Name: blacklist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.blacklist_id_seq', 29, true);
 
 
 --
@@ -218,6 +241,13 @@ SELECT pg_catalog.setval('public.publication_house_id_seq', 2, true);
 --
 
 SELECT pg_catalog.setval('public.purchase_prices_id_seq', 20, true);
+
+
+--
+-- Name: status_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.status_id_seq', 20, true);
 
 
 --

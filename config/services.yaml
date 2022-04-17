@@ -57,7 +57,19 @@ services:
         factory: ['@Doctrine\ORM\EntityManagerInterface', 'getRepository' ]
         arguments:
             $entityName: NonEfTech\BookCrossing\Entity\PublicationHouse
-#
+
+    NonEfTech\BookCrossing\Entity\BlackListInterface:
+        factory: ['@Doctrine\ORM\EntityManagerInterface', 'getRepository']
+        arguments:
+            $entityName: NonEfTech\BookCrossing\Entity\BlackList
+
+    NonEfTech\BookCrossing\Entity\BlackListStatus\StatusFactoryInterface:
+        alias: NonEfTech\BookCrossing\Factory\StatusFactory
+
+    NonEfTech\BookCrossing\DoctrineEventSubscriber\EntityEventSubscriber:
+        tags:
+            - name: 'doctrine.event_subscriber'
+
 #    Monolog\Handler\TelegramBotHandler:
 #        arguments:
 #            $apiKey: '%env(TELEGRAM_BOT_KEY)%'

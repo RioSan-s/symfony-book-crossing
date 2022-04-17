@@ -102,7 +102,7 @@ class CreateIdActOfTakingController extends AbstractController
      * @return array
      * @throws \Exception
      */
-    private function validateData($requestData)
+    private function validateData($requestData):array
     {
         $constraint = [
             new Assert\Type(['type' => 'array', 'message' => 'Данные о акте взятия не являются массивом']),

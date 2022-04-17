@@ -13,6 +13,7 @@ doctrine:
            BookCrossingEntity:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'NonEfTech\BookCrossing\Entity'
+
            BookCrossingValueObject:
                 dir: '%kernel.project_dir%/src/ValueObject'
                 prefix: 'NonEfTech\BookCrossing\ValueObject'

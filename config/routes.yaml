@@ -63,5 +63,10 @@ act_of_taking_register:
 
 publication_house:
   path: /publicationHouse
-  controller: \NonEfTech\BookCrossing\Controller\GetPublicationHouseController
+  controller: NonEfTech\BookCrossing\Controller\GetPublicationHouseController::__invoke
   methods: GET
+
+blackList:
+  path: /blacklist/add
+  controller: NonEfTech\BookCrossing\Controller\RegisterBlackListMemberController::__invoke
+  methods: POST
