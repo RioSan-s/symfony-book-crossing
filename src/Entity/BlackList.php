@@ -119,13 +119,10 @@ class BlackList
         return $this->id;
     }
 
-    public function banParticipant(): self
+    public function updateDescription(string $description): self
     {
-        if (STATUS::STATUS_BANNED === $this->status->getName()) {
-            throw new RuntimeException("Пользователь с id {$this->getParticipant()->getId()} уже находится в Black List"
-            );
-        }
-        $this->status= new Status(Status::STATUS_BANNED);
+
+        $this->description= $description;
         return $this;
     }
 

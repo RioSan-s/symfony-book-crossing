@@ -1,14 +1,17 @@
 <?php
 
-namespace NonEfTech\BookCrossing\Service\ArrivalNewBlackListMemberService;
-
+namespace NonEfTech\BookCrossing\Service\ChangeDescriptionBlackListService;
 
 use DateTimeImmutable;
-use NonEfTech\BookCrossing\Entity\BlackListStatus\Status;
 
-class NewBlackListMemberDto
+class UpdateDescriptionDto
 {
 
+    /**
+     * id записи
+     * @var int
+     */
+    private int $id;
 
     /**
      * Описание
@@ -23,14 +26,6 @@ class NewBlackListMemberDto
     private string $status;
 
     /**
-     * @return Status
-     */
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    /**
      * Участник обмена
      * @var int
      */
@@ -42,19 +37,20 @@ class NewBlackListMemberDto
      */
     private DateTimeImmutable $date;
 
-
     /**
-     * @param string $description
-     * @param int $participant
+     * @param int               $id
+     * @param string            $description
+     * @param string            $status
+     * @param int               $participant
      * @param DateTimeImmutable $date
-     * @param Status $status
      */
-    public function __construct(string $description, int $participant, DateTimeImmutable $date, string $status)
+    public function __construct(int $id, string $description, string $status, int $participant, DateTimeImmutable $date)
     {
+        $this->id = $id;
         $this->description = $description;
+        $this->status = $status;
         $this->participant = $participant;
         $this->date = $date;
-        $this->status = $status;
     }
 
     /**
@@ -66,13 +62,20 @@ class NewBlackListMemberDto
     }
 
     /**
-     * @return DateTimeImmutable
+     * @return int
      */
-    public function getDate(): DateTimeImmutable
+    public function getId(): int
     {
-        return $this->date;
+        return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
 
     /**
      * @return int
@@ -81,6 +84,15 @@ class NewBlackListMemberDto
     {
         return $this->participant;
     }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getDate(): DateTimeImmutable
+    {
+        return $this->date;
+    }
+
 
 
 }

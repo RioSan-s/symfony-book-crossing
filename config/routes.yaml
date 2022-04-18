@@ -70,3 +70,8 @@ blackList:
   path: /blacklist/add
   controller: NonEfTech\BookCrossing\Controller\RegisterBlackListMemberController::__invoke
   methods: POST
+
+blackListUpdate:
+  path: /blacklist/update
+  controller: NonEfTech\BookCrossing\Controller\UpdateDescriptionBlackListController::__invoke
+  methods: PUT

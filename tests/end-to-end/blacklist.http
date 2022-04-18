@@ -3,7 +3,7 @@ POST http://localhost:8086/blacklist/add
 Content-Type: application/json
 
 {
-  "description":"Забанили по причине ужасного обращения с книгами",
+  "description": "Забанили по причине ужасного обращения с книгами",
   "participant": 5,
   "date": "2022-04-17 19:58:30",
   "status": "banned"
@@ -27,7 +27,7 @@ POST http://localhost:8086/blacklist/add
 Content-Type: application/json
 
 {
-  "description":"Разбанили, он искупил свою вину",
+  "description": "Разбанили, он искупил свою вину",
   "participant": 5,
   "date": "2022-04-17 20:00:00",
   "status": "unBanned"
@@ -45,3 +45,23 @@ client.assert(response.body["date"] === "2022-04-17 20:00:00", "некоррек
 });
  %}
 
+### обновление описания
+PUT http://localhost:8086/blacklist/update
+Content-Type: application/json
+
+{
+  "id": 28,
+  "description":"Новое обновление статуса"
+}
+
+> {%
+client.test("обновление описания", function (){
+  client.assert(response.status === 200, "Ожидается код '201'. Реальный код '" + response.status + "'.");
+  client.assert(response.contentType.mimeType === "application/json", "Ожидаю applicationType, а фактически" + response.contentType.mimeType + "'.");
+client.assert(response.body["id"] === 28, "некорректный записи");
+client.assert(response.body["participantId"] === 5, "некорректный участник обмена");
+client.assert(response.body["description"] === "Новое обновление статуса");
+client.assert(response.body["status"] === "banned", "некорректный статус");
+client.assert(response.body["date"] === "2022-04-17 19:58:30", "некорректное время бана");
+});
+ %}

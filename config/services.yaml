@@ -63,6 +63,8 @@ services:
         arguments:
             $entityName: NonEfTech\BookCrossing\Entity\BlackList
 
+
+
     NonEfTech\BookCrossing\Entity\BlackListStatus\StatusFactoryInterface:
         alias: NonEfTech\BookCrossing\Factory\StatusFactory
 
