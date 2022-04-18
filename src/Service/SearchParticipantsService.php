@@ -87,7 +87,7 @@ final class SearchParticipantsService
         return new ParticipantsDto(
             $participant->getId(),
             $participant->getFio(),
-            $participant->getPhoneNumber(),
+            $participant->getPhoneNumber()->getPhoneNumber(),
             $participant->getDateOfBirth(),
             $participant->getEmail()
         );
