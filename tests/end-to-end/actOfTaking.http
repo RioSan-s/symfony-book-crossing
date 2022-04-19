@@ -223,6 +223,8 @@ client.test("Тестирование поиска актов взятия по 
 });
  %}
 
+`
+
 ### Тестирование поиска актов взятия по году публикации книги
 GET http://localhost:8086/actOfTaking?book_yearOfPublication=2020-01-01
 

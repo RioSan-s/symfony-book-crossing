@@ -157,6 +157,9 @@ COPY public.act_of_taking (id, book_id, count, participant_id) FROM stdin;
 111	5	1	5
 112	3	4	1
 113	5	1	5
+114	5	1	5
+115	1	3	1
+116	3	1	4
 \.
 
 
@@ -190,7 +193,8 @@ COPY public.status (id, name) FROM stdin;
 COPY public.blacklist (id, participant_id, description, status_id, date) FROM stdin;
 29	5	Разбанили, он искупил свою вину	6	2022-04-17 20:00:00
 30	5	Забанили по причине ужасного обращения с книгами	5	2022-04-17 19:58:30
-28	5	Новое обновлиене статуса	5	2022-04-17 19:58:30
+28	5	Новое обновление статуса	5	2022-04-17 19:58:30
+31	5	Обновили запись	5	2022-04-17 19:58:30
 \.
 
 
@@ -228,14 +232,14 @@ COPY public.purchase_prices (book_id, date, price, currency_id, id) FROM stdin;
 -- Name: act_of_taking_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.act_of_taking_id_seq', 113, true);
+SELECT pg_catalog.setval('public.act_of_taking_id_seq', 116, true);
 
 
 --
 -- Name: blacklist_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.blacklist_id_seq', 30, true);
+SELECT pg_catalog.setval('public.blacklist_id_seq', 31, true);
 
 
 --

@@ -50,8 +50,8 @@ PUT http://localhost:8086/blacklist/update
 Content-Type: application/json
 
 {
-  "id": 28,
-  "description":"Новое обновление статуса"
+  "id": 31,
+  "description":"Обновили запись"
 }
 
 > {%
